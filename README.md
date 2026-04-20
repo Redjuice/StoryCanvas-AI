@@ -1,2 +1,0 @@
-# StoryCanvas-AI
-StoryCanvas AI
