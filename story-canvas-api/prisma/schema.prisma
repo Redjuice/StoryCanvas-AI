@@ -1,13 +1,65 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Get a free hosted Postgres database in seconds: `npx create-db`
-
 generator client {
-  provider = "prisma-client"
-  output   = "../generated/prisma"
+  provider = "prisma-client-js"
 }
 
 datasource db {
   provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  password  String
+  nickname  String?
+  avatar    String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  stories   Story[]
+
+  @@map("users")
+}
+
+model Story {
+  id          String      @id @default(uuid())
+  title       String
+  theme       String
+  ageGroup    String
+  style       String
+  status      StoryStatus @default(DRAFT)
+  cover       String?
+  pageCount   Int         @default(5)
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  userId      String
+  user        User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  pages       Page[]
+
+  @@index([userId])
+  @@index([status])
+  @@map("stories")
+}
+
+model Page {
+  id           String   @id @default(uuid())
+  pageNum      Int
+  text         String
+  image        String?
+  imagePrompt  String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  storyId     String
+  story       Story    @relation(fields: [storyId], references: [id], onDelete: Cascade)
+
+  @@index([storyId])
+  @@map("pages")
+}
+
+enum StoryStatus {
+  DRAFT
+  GENERATING
+  COMPLETED
+  FAILED
 }
