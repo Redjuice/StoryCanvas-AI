@@ -1,4 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common'
+import { ConfigService } from '@nestjs/config'
 import { createHash } from 'crypto'
 
 interface CacheEntry<T> {
@@ -13,9 +14,9 @@ export class AICacheService {
   private readonly ttl: number
   private readonly maxSize: number
 
-  constructor(ttl: number = 3600000, maxSize: number = 1000) {
-    this.ttl = ttl
-    this.maxSize = maxSize
+  constructor(private readonly configService: ConfigService) {
+    this.ttl = this.configService.get<number>('AI_CACHE_TTL') || 3600000
+    this.maxSize = this.configService.get<number>('AI_CACHE_MAX_SIZE') || 1000
     this.startCleanupTimer()
   }
 

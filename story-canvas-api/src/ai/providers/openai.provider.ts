@@ -112,7 +112,7 @@ export class OpenAIProvider implements AIProvider {
               Authorization: `Bearer ${this.config.apiKey}`,
               'Content-Type': 'application/json',
             },
-            timeout: this.config.timeout * 2,
+            timeout: (this.config.timeout || 60000) * 2,
           },
         ),
       )

@@ -1,9 +1,9 @@
 import { Injectable, Logger } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
-import { OpenAIProvider } from '../providers/openai.provider'
-import { ClaudeProvider } from '../providers/claude.provider'
-import { GLMProvider } from '../providers/glm.provider'
-import { AICacheService } from '../services/ai-cache.service'
+import { OpenAIProvider } from './providers/openai.provider'
+import { ClaudeProvider } from './providers/claude.provider'
+import { GLMProvider } from './providers/glm.provider'
+import { AICacheService } from './services/ai-cache.service'
 import {
   AIProvider,
   ProviderType,
@@ -11,7 +11,7 @@ import {
   GenerationResult,
   ImageGenerateOptions,
   ImageGenerationResult,
-} from '../interfaces/ai-provider.interface'
+} from './interfaces/ai-provider.interface'
 
 @Injectable()
 export class AIService {
