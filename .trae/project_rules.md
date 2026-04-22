@@ -2,7 +2,7 @@
 
 ## 1. 项目概述
 - **项目名称**: StoryCanvas-AI (AI智能绘本创作平台)
-- **前端技术栈**: Vue3 + Vite + Pinia + Vue Router + Axios + Vant
+- **前端技术栈**: Vue3 + Vite + Pinia + Vue Router + Axios + Tailwind CSS
 - **后端技术栈**: Nest.js + PostgreSQL + Prisma + JWT
 - **端类型**: 单项目响应式布局 (PC + 移动端自适应)
 
@@ -38,7 +38,7 @@ story-canvas-web/ (前端项目)
 ```
 
 ### 2.3 响应式适配
-- 使用 Vant UI 组件库 (移动端友好)
+- 使用 Tailwind CSS (自行实现UI组件，响应式适配)
 - 使用 CSS Flex/Grid 布局
 - 使用媒体查询 `@media` 进行 PC/移动端样式适配
 - 断点: 移动端 < 768px, PC端 >= 768px
