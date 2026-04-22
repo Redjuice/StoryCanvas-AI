@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            font-family: 'Plus Jakarta Sans', "PingFang SC", "Noto Sans SC", sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+        .hero-gradient {
+            background: linear-gradient(135deg, #5847d2 0%, #c6bfff 100%);
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              colors: {
+                "on-secondary-fixed-variant": "#881d24",
+                "background": "#f7f9fc",
+                "surface-container": "#eceef1",
+                "on-surface-variant": "#494458",
+                "error-container": "#ffdad6",
+                "on-secondary-container": "#881d24",
+                "surface-container-low": "#f2f4f7",
+                "primary": "#5847d2",
+                "tertiary-container": "#63fbcf",
+                "primary-fixed": "#e4dfff",
+                "on-tertiary-fixed-variant": "#00513f",
+                "surface-variant": "#e0e3e6",
+                "outline": "#7a748a",
+                "outline-variant": "#cbc3dc",
+                "secondary": "#a83639",
+                "primary-fixed-dim": "#c6bfff",
+                "inverse-surface": "#2d3133",
+                "surface-dim": "#d8dadd",
+                "on-error": "#ffffff",
+                "on-secondary-fixed": "#410006",
+                "inverse-on-surface": "#eff1f4",
+                "tertiary-fixed": "#63fbcf",
+                "on-primary": "#ffffff",
+                "on-error-container": "#93000a",
+                "on-primary-fixed": "#160066",
+                "surface-container-high": "#e6e8eb",
+                "surface-tint": "#5847d2",
+                "secondary-fixed-dim": "#ffb3b0",
+                "on-tertiary": "#ffffff",
+                "secondary-fixed": "#ffdad8",
+                "surface-container-lowest": "#ffffff",
+                "secondary-container": "#ffdad8",
+                "inverse-primary": "#c6bfff",
+                "on-tertiary-container": "#00513f",
+                "surface-container-highest": "#e0e3e6",
+                "tertiary-fixed-dim": "#3fdeb4",
+                "on-primary-fixed-variant": "#4029ba",
+                "on-background": "#191c1e",
+                "error": "#ba1a1a",
+                "on-tertiary-fixed": "#002118",
+                "surface": "#f7f9fc",
+                "primary-container": "#e4dfff",
+                "on-primary-container": "#4029ba",
+                "surface-bright": "#f7f9fc",
+                "on-surface": "#191c1e",
+                "tertiary": "#006b54",
+                "on-secondary": "#ffffff"
+              },
+              fontFamily: {
+                "headline": ["Plus Jakarta Sans"],
+                "body": ["Plus Jakarta Sans"],
+                "label": ["Plus Jakarta Sans"]
+              },
+              borderRadius: {"DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px"},
+            },
+          },
+        }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface min-h-screen pb-32">
+<!-- TopAppBar -->
+<header class="w-full top-0 sticky z-40 bg-slate-50 dark:bg-slate-900 flex items-center justify-between px-6 py-4 w-full">
+<div class="flex items-center gap-3">
+<button class="text-indigo-600 dark:text-indigo-400 active:scale-95 duration-200">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<h1 class="text-xl font-bold tracking-tight text-indigo-700 dark:text-indigo-300">StoryCanvas AI</h1>
+</div>
+<div class="w-10 h-10 rounded-full bg-surface-variant overflow-hidden">
+<img alt="User Profile" class="w-full h-auto" data-alt="Close-up portrait of a friendly young creator in a bright modern studio with soft cinematic lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCdPiS8VF8OFUlnkkUZ334Sjfvo5jFcuw-sXNJ4_NZBt9ilVQkDcuGkqzU_a_H0KJHO6fnM1Ich_dfRjQ5ZYR5P8gCbjod-V1kjQcibrJU3QpDeTvmLUQ1A3TKLMybOMujvMiEbPvhFJIaLFLtLDzAaQ3VM22cWo-hoWwl9TJ_xLAQ5nwh3JBEOFmcRv_tnHb6oK8k8QPJbcOqvknPgBj7ncWogPyZiKMcre8jSTBZqZJL5nZ5MBpOSZnSvQPE7dkpwW5FVYI2dIqwP"/>
+</div>
+</header>
+<main class="flex flex-col gap-8 px-5">
+<!-- Hero Section -->
+<section class="mt-4 rounded-xl overflow-hidden relative aspect-[4/5] flex flex-col justify-end p-8 text-on-primary">
+<div class="absolute inset-0 z-0">
+<img alt="Hero Background" class="w-full h-full object-cover" data-alt="Magical landscape with floating islands and a whale flying through a sunset sky in a vibrant digital painting style" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD8WsFui_pX5uQvKtrh9milOd-3HNX0FP-tDXsEvFfM5u8n4yaSlbngH-0hhOD1sBYhCDFMJR_1h2Bc8mes4-7iHwegjII0Kfceuzqx-gjNL2QUZefUimUNVzmzCnd1_8P9XWL9mtOLmee56x4TItlikt-Zb41xbO8KAfKJnbJ6i8SepxcZslIMbz1qIoDEQOG6X4GZs5FtDvio-4R7qd8anWq4OXGhiWMxnRRxEfHAVy_sXtDQHE7jfl_Ls1oeYW6aGqXEt8d2s2gA"/>
+<div class="absolute inset-0 bg-gradient-to-t from-primary/80 via-primary/20 to-transparent"></div>
+</div>
+<div class="relative z-10 space-y-4">
+<h2 class="text-3xl font-extrabold leading-tight tracking-tight">让想象力插上翅膀，一键生成精美绘本</h2>
+<button class="bg-gradient-to-r from-primary to-primary-fixed-dim text-on-primary px-8 py-4 rounded-full font-bold text-lg shadow-lg active:scale-95 transition-transform w-full">
+                    立即开启创作之旅
+                </button>
+</div>
+</section>
+<!-- Feature Chips -->
+<section class="grid grid-cols-3 gap-3">
+<div class="bg-surface-container-lowest p-4 rounded-lg flex flex-col items-center justify-center gap-2 shadow-[0_8px_32px_rgba(88,71,210,0.06)]">
+<div class="bg-primary-container text-primary p-2 rounded-full">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">bolt</span>
+</div>
+<span class="text-[12px] font-bold tracking-wider text-on-surface-variant uppercase">秒级生成</span>
+</div>
+<div class="bg-surface-container-lowest p-4 rounded-lg flex flex-col items-center justify-center gap-2 shadow-[0_8px_32px_rgba(88,71,210,0.06)]">
+<div class="bg-secondary-container text-secondary p-2 rounded-full">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">palette</span>
+</div>
+<span class="text-[12px] font-bold tracking-wider text-on-surface-variant uppercase">风格定制</span>
+</div>
+<div class="bg-surface-container-lowest p-4 rounded-lg flex flex-col items-center justify-center gap-2 shadow-[0_8px_32px_rgba(88,71,210,0.06)]">
+<div class="bg-tertiary-container text-tertiary p-2 rounded-full">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">auto_stories</span>
+</div>
+<span class="text-[12px] font-bold tracking-wider text-on-surface-variant uppercase">一键排版</span>
+</div>
+</section>
+<!-- Style Showcase -->
+<section class="space-y-4">
+<div class="flex items-center justify-between px-1">
+<h3 class="text-xl font-bold text-on-surface tracking-tight">探索画风</h3>
+<span class="text-primary font-medium text-sm">查看全部</span>
+</div>
+<div class="flex overflow-x-auto gap-5 pb-6 -mx-5 px-5 snap-x scrollbar-hide">
+<!-- Style Card 1 -->
+<div class="flex-shrink-0 w-44 snap-start">
+<div class="bg-surface-container-lowest rounded-lg overflow-hidden shadow-[0_8px_32px_rgba(88,71,210,0.04)] active:scale-95 transition-transform">
+<div class="aspect-square relative">
+<img alt="Watercolor Style" class="w-full h-full object-cover" data-alt="Soft watercolor painting of a dreamy forest with pastel colors and bleeding textures" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBuyZqNBszCBuLKT7pBVc1zICL5rTt9rOg8PGwJ5DfqWa3x7auG3B5xT03TbP8FISgwBwgTByqaRnnxXU4pVoWvqSk_RMnOfuo1pV2DJKG01P3naCoPMPMcUctYAZ00xLCLRqQYOemuchkpOFo7IJt3o9vUORtKhRYSngXvCASABYMO1vrS64v2b6jkZVdBKUoH02UBlol8c4bdXGqTx6ehvnm9VJWh1rq_S7ov15bDA3KBgDMmZv98cRAfwIGdtgpa6cptowruDFE8"/>
+</div>
+<div class="p-3 text-center">
+<p class="font-bold text-on-surface text-sm">Watercolor Dream</p>
+</div>
+</div>
+</div>
+<!-- Style Card 2 -->
+<div class="flex-shrink-0 w-44 snap-start mt-6"> <!-- Asymmetric offset -->
+<div class="bg-surface-container-lowest rounded-lg overflow-hidden shadow-[0_8px_32px_rgba(88,71,210,0.04)] active:scale-95 transition-transform">
+<div class="aspect-square relative">
+<img alt="Cartoon Pop Style" class="w-full h-full object-cover" data-alt="Vibrant pop art illustration of a cheerful space explorer with bold outlines and saturated colors" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDZbMQ2BJW6zFTOaXLigPFK3nNjr0A2jbrlh-8sqal39deIJGRiTlo6127A0rOmbYd71a6hXv4z6foN5h1MgZavdcAmxvh60ICaO-qof_rY8N7UalMx8_m1D6MNpuKV8LF2Aa4KOMmEWnK18MVTxdA-PRoHgL9UOg4uUErVyzrRUbHMdQQ00hUzsrZesSOw6dC6O7io6pwtWxmxQTXEW9m4iOP50-NKWxrr1X-fDEkSiOwfz5Vjd6tOLOQXrU-veycQH7S5Twrs1XkH"/>
+</div>
+<div class="p-3 text-center">
+<p class="font-bold text-on-surface text-sm">Cartoon Pop</p>
+</div>
+</div>
+</div>
+<!-- Style Card 3 -->
+<div class="flex-shrink-0 w-44 snap-start">
+<div class="bg-surface-container-lowest rounded-lg overflow-hidden shadow-[0_8_32px_rgba(88,71,210,0.04)] active:scale-95 transition-transform">
+<div class="aspect-square relative">
+<img alt="Pencil Sketch Style" class="w-full h-full object-cover" data-alt="Detailed monochromatic pencil sketch of an ancient castle on a misty hill with delicate cross-hatching" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCCB3hLSPs1rCiIAbjX5EuOf1cLIlLKEd8qZDX4OCKQ2JXkhTOYOPVy91snCj27tajxxn0Yf8mRnZBxOh0Zr3SP6uGwrzmnA4_OsGNDwkpm3ggzrsrPVjgj7UX0DOpcuGzKgEU1rhJnNBbHxClKC00KJosLQzjx7hrxJFNZwLJORkBa2XNPU6G0l7sP6rF_REXIDh7bORYWnriTgyhDgB_iAG-deAxT6OtgS9ht3FqlOqIJ1kKKr_OijKisQoAmATDpSOwe7TG3qlR_"/>
+</div>
+<div class="p-3 text-center">
+<p class="font-bold text-on-surface text-sm">Classic Sketch</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- AI Promotion Banner -->
+<section class="bg-surface-container-low rounded-xl p-6 flex items-center justify-between gap-4">
+<div class="flex-1">
+<p class="text-[10px] font-bold tracking-[0.2em] text-primary uppercase mb-1">全新升级</p>
+<h4 class="text-lg font-bold text-on-surface mb-2 leading-snug">输入一个故事梗概<br/>即刻获得完整绘本</h4>
+<div class="flex gap-2">
+<span class="text-[11px] bg-white px-2 py-1 rounded-full text-outline font-medium">✨ 智能排版</span>
+<span class="text-[11px] bg-white px-2 py-1 rounded-full text-outline font-medium">🎨 连贯画风</span>
+</div>
+</div>
+<div class="w-24 h-24 bg-primary-fixed rounded-lg overflow-hidden flex-shrink-0 -mr-2 -rotate-3 shadow-md">
+<img alt="AI Magic" class="w-full h-full object-cover" data-alt="Iridescent liquid metal waves reflecting soft neon purple and blue light with a digital texture" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA2QGkKI4Cv3Aqp2g09MjhFIINyZXHKB_4S7bk_jX_gmaA12v3B9ICXTsZqb8x2JPjWEbjVqUKTAnUeWJLElqlsrulfypL1ltjDn2WLSlSJ9ryc3Da7lu5-rNWJV3f6WMR-F7VUkJ4kqthhyiUNewjaODi9aeTSxhM9AT8GS90Sy3SB2uhPet5hm3Ad0yycFsQJyl8faxhCC1y7f1u_5Hf3DrU9JKxr6L_jAbgCxUWvT3AdYwYrLr7f2CmCnzphDW_IZFY7Sm_eo-kV"/>
+</div>
+</section>
+<!-- Footer -->
+<footer class="flex flex-col items-center gap-2 w-full py-8 mb-24 bg-slate-50 dark:bg-slate-950">
+<div class="flex gap-4">
+<span class="text-[10px] font-['Plus_Jakarta_Sans'] uppercase tracking-widest text-slate-400 hover:text-indigo-500">Privacy</span>
+<span class="text-[10px] font-['Plus_Jakarta_Sans'] uppercase tracking-widest text-slate-400 hover:text-indigo-500">Terms</span>
+</div>
+<p class="text-[10px] font-['Plus_Jakarta_Sans'] uppercase tracking-widest text-slate-400">© 2024 StoryCanvas AI</p>
+</footer>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pb-6 pt-3 bg-white/70 dark:bg-slate-900/70 backdrop-blur-xl shadow-[0_-8px_32px_rgba(88,71,210,0.06)] rounded-t-[2rem]">
+<a class="flex flex-col items-center justify-center bg-indigo-50 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-200 rounded-full px-6 py-1.5 active:scale-90 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">home</span>
+<span class="font-['Plus_Jakarta_Sans'] text-[12px] font-medium">首页</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-500 dark:text-slate-400 py-1.5 active:scale-90 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined">add_circle</span>
+<span class="font-['Plus_Jakarta_Sans'] text-[12px] font-medium">创作</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-500 dark:text-slate-400 py-1.5 active:scale-90 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined">library_books</span>
+<span class="font-['Plus_Jakarta_Sans'] text-[12px] font-medium">书架</span>
+</a>
+</nav>
+</body></html>

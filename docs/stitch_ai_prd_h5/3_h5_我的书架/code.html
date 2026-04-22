@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-secondary-fixed-variant": "#881d24",
+              "background": "#f7f9fc",
+              "surface-container": "#eceef1",
+              "on-surface-variant": "#494458",
+              "error-container": "#ffdad6",
+              "on-secondary-container": "#881d24",
+              "surface-container-low": "#f2f4f7",
+              "primary": "#5847d2",
+              "tertiary-container": "#63fbcf",
+              "primary-fixed": "#e4dfff",
+              "on-tertiary-fixed-variant": "#00513f",
+              "surface-variant": "#e0e3e6",
+              "outline": "#7a748a",
+              "outline-variant": "#cbc3dc",
+              "secondary": "#a83639",
+              "primary-fixed-dim": "#c6bfff",
+              "inverse-surface": "#2d3133",
+              "surface-dim": "#d8dadd",
+              "on-error": "#ffffff",
+              "on-secondary-fixed": "#410006",
+              "inverse-on-surface": "#eff1f4",
+              "tertiary-fixed": "#63fbcf",
+              "on-primary": "#ffffff",
+              "on-error-container": "#93000a",
+              "on-primary-fixed": "#160066",
+              "surface-container-high": "#e6e8eb",
+              "surface-tint": "#5847d2",
+              "secondary-fixed-dim": "#ffb3b0",
+              "on-tertiary": "#ffffff",
+              "secondary-fixed": "#ffdad8",
+              "surface-container-lowest": "#ffffff",
+              "secondary-container": "#ffdad8",
+              "inverse-primary": "#c6bfff",
+              "on-tertiary-container": "#00513f",
+              "surface-container-highest": "#e0e3e6",
+              "tertiary-fixed-dim": "#3fdeb4",
+              "on-primary-fixed-variant": "#4029ba",
+              "on-background": "#191c1e",
+              "error": "#ba1a1a",
+              "on-tertiary-fixed": "#002118",
+              "surface": "#f7f9fc",
+              "primary-container": "#e4dfff",
+              "on-primary-container": "#4029ba",
+              "surface-bright": "#f7f9fc",
+              "on-surface": "#191c1e",
+              "tertiary": "#006b54",
+              "on-secondary": "#ffffff"
+            },
+            fontFamily: {
+              "headline": ["Plus Jakarta Sans"],
+              "body": ["Plus Jakarta Sans"],
+              "label": ["Plus Jakarta Sans"]
+            },
+            borderRadius: {"DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .book-spine {
+            box-shadow: inset 12px 0 15px -10px rgba(0,0,0,0.3);
+        }
+        .glass-header {
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="bg-surface font-body text-on-background min-h-screen">
+<!-- Top Navigation Bar -->
+<header class="bg-slate-50/80 dark:bg-slate-900/80 glass-header w-full top-0 sticky z-40">
+<div class="flex items-center justify-between px-6 py-4 w-full">
+<div class="active:scale-95 duration-200 p-2 rounded-full hover:bg-slate-200/50 dark:hover:bg-slate-700/50 transition-colors">
+<span class="material-symbols-outlined text-indigo-600 dark:text-indigo-400">menu</span>
+</div>
+<h1 class="text-xl font-bold tracking-tight text-indigo-700 dark:text-indigo-300 font-headline">StoryCanvas AI</h1>
+<div class="w-10 h-10 rounded-full overflow-hidden border-2 border-primary-fixed shadow-sm active:scale-95 transition-transform">
+<img alt="User Profile Avatar" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCPDff3uHBmZW9Cre3Set_MwdSynrNe6lvI9Tacpk9RrHx5e-YSm78gw-pffSG3PiPNooRi6gThXST27zNLc2VPH_suX20xanvKEJIjr9DElj9smsYAWzh9IgH_ynT4b2pOK3iPRFre_LeEWU8KWm7UNozktvs3rzpVz_JyNsLgHhEL06TIxlM93AOZgjODmHsTDrFXg5yx3QByo_K1QrL0Hy3ML89Ng5s7RiOZffeu_MmC5WvdFVKP3KulyOPE4Yv3tU08ZG0hFoHZ"/>
+</div>
+</div>
+</header>
+<main class="px-6 pt-4 pb-32">
+<!-- Search & Filter Section -->
+<section class="mb-6 space-y-4">
+<div class="relative group">
+<div class="absolute inset-y-0 left-4 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-outline">search</span>
+</div>
+<input class="w-full bg-surface-container-low border-none rounded-xl py-4 pl-12 pr-4 text-on-surface focus:ring-2 focus:ring-primary/20 focus:bg-surface-container-lowest transition-all duration-300 placeholder:text-outline/60" placeholder="搜索你的故事书..." type="text"/>
+</div>
+<!-- Horizontal Filter Bar -->
+<div class="flex items-center gap-3 overflow-x-auto hide-scrollbar -mx-6 px-6">
+<button class="flex-none px-4 py-2 bg-primary text-on-primary rounded-full text-sm font-semibold whitespace-nowrap shadow-sm">全部故事</button>
+<button class="flex-none px-4 py-2 bg-surface-container text-on-surface-variant rounded-full text-sm font-semibold whitespace-nowrap">草稿箱</button>
+<button class="flex-none px-4 py-2 bg-surface-container text-on-surface-variant rounded-full text-sm font-semibold whitespace-nowrap">已发布</button>
+<button class="flex-none w-10 h-10 flex items-center justify-center bg-surface-container text-on-surface-variant rounded-full ml-auto">
+<span class="material-symbols-outlined">filter_list</span>
+</button>
+</div>
+</section>
+<!-- Shelf Title -->
+<div class="flex items-center justify-between mb-6">
+<h2 class="text-2xl font-bold tracking-tight font-headline">我的书架</h2>
+<span class="text-xs font-label font-bold tracking-widest text-outline uppercase">6 BOOKS</span>
+</div>
+<!-- Book Grid (Double Column) -->
+<div class="grid grid-cols-2 gap-x-5 gap-y-8">
+<!-- Create New Story Card -->
+<div class="relative group active:scale-95 transition-all duration-200">
+<div class="aspect-[3/4] rounded-2xl bg-surface-container border-2 border-dashed border-outline-variant flex flex-col items-center justify-center gap-3 overflow-hidden">
+<div class="w-14 h-14 rounded-full bg-primary-container flex items-center justify-center text-primary group-hover:scale-110 transition-transform duration-300">
+<span class="material-symbols-outlined text-3xl" style="font-variation-settings: 'wght' 600;">add</span>
+</div>
+<span class="text-primary font-bold text-sm tracking-wide">创作新故事</span>
+</div>
+</div>
+<!-- Book 1 (Draft) -->
+<div class="relative group active:scale-[0.98] transition-all duration-200">
+<div class="aspect-[3/4] rounded-2xl bg-surface-container-lowest shadow-lg overflow-hidden flex relative book-spine">
+<img alt="小猫的城市冒险" class="absolute inset-0 w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDAqJWio3pzuRl9CfOS___YiN9AcDUQ1CtwX7POyCs4gi8rNcMUlvjbLWq1fdF0hQAp6BNFd4HRcQqR_5upJ1-hFUl66N6fMIYUpJ8gknhyoT8SqJSeg7t6d2mJMsyD1j6brdSrWMJeg83myq0IfNEGpxuEdwwitlniXrKzni1uKL2keTmyBTZhCqBHMxZHQX44R3xJ_PeeVC5cocSQIJ88JkNk01ZQiiilcL5PCI6y2ICALcsLLoh92h8lP0p1qXKD9RoApH--v_ZA"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent"></div>
+<!-- Kebab Menu -->
+<button class="absolute top-2 right-2 w-8 h-8 rounded-full bg-black/20 backdrop-blur-md flex items-center justify-center text-white active:bg-black/40">
+<span class="material-symbols-outlined text-lg">more_vert</span>
+</button>
+<!-- Status Tag -->
+<div class="absolute top-2 left-2">
+<span class="bg-amber-400/90 text-amber-950 text-[10px] font-bold px-2 py-0.5 rounded-full backdrop-blur-md uppercase tracking-wider">Draft</span>
+</div>
+<div class="absolute bottom-3 left-3 right-3 space-y-2">
+<p class="text-white font-bold text-sm leading-tight line-clamp-1">小猫的城市冒险</p>
+<button class="w-full py-1.5 bg-white/20 backdrop-blur-md border border-white/30 rounded-lg text-white text-[11px] font-bold uppercase tracking-wider active:bg-white/40">继续编辑</button>
+</div>
+</div>
+</div>
+<!-- Book 2 (Published) -->
+<div class="relative group active:scale-[0.98] transition-all duration-200">
+<div class="aspect-[3/4] rounded-2xl bg-surface-container-lowest shadow-lg overflow-hidden flex relative book-spine border-l border-white/10">
+<img alt="星际小航海家" class="absolute inset-0 w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB1z3j-IpBueeA1lwnzzUku8E_DFAfMcdMPena66aKOrYYbEK_W4v1AmXYfrxbcoMVWXMTrFJnpIabDyZJmYGns15tGvSDajlbIH2I2hfN55UqmLGZldQ-sOSrg2wcPVs80AfREgj6XYVlBiGoqy2MwkWuyp3N_l5fHu-4OYXQ-h-qfCyNWCR8P5iz9kRDbTU--KSj-LqZGdqRgPUUUuLx9xs8gyfW6q1OoGHx8vPRfBAlZK3E3cW21XGU2oot1vAdCd3O97USxiFDv"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
+<button class="absolute top-2 right-2 w-8 h-8 rounded-full bg-black/20 backdrop-blur-md flex items-center justify-center text-white active:bg-black/40">
+<span class="material-symbols-outlined text-lg">more_vert</span>
+</button>
+<div class="absolute top-2 left-2">
+<span class="bg-emerald-400/90 text-emerald-950 text-[10px] font-bold px-2 py-0.5 rounded-full backdrop-blur-md uppercase tracking-wider">Public</span>
+</div>
+<div class="absolute bottom-3 left-3 right-3">
+<p class="text-white font-bold text-sm leading-tight line-clamp-2">星际小航海家</p>
+</div>
+</div>
+</div>
+<!-- Book 3 (Draft) -->
+<div class="relative group active:scale-[0.98] transition-all duration-200">
+<div class="aspect-[3/4] rounded-2xl bg-surface-container-lowest shadow-lg overflow-hidden flex relative book-spine">
+<img alt="森林里的秘密" class="absolute inset-0 w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC4LaYTk9PoMo0369SdJQPVBYx1wFjP2JDdlsKHzAIcJm9QZ8LXpTkNwI_OaoF_DNh42pRvFJ9VDT5LQN2XOUtsOAehiO-1hospzc-8ldTuVdPXsJZMz5-c-aGrT1OzdFCCHsM07J3cW7uNFl59iIz5bWey3z0aeCmN7itYGMZ3q9vg0FkUAgMyYjnQ2oxgkLJ4T9bnoBNHXYrbRe_tT7qzwEOU82j5xFy3gVr7jbQGWD-0h9rzh4klprhlpLv1fSJgOdlWJUQrMzac"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent"></div>
+<button class="absolute top-2 right-2 w-8 h-8 rounded-full bg-black/20 backdrop-blur-md flex items-center justify-center text-white active:bg-black/40">
+<span class="material-symbols-outlined text-lg">more_vert</span>
+</button>
+<div class="absolute top-2 left-2">
+<span class="bg-amber-400/90 text-amber-950 text-[10px] font-bold px-2 py-0.5 rounded-full backdrop-blur-md uppercase tracking-wider">Draft</span>
+</div>
+<div class="absolute bottom-3 left-3 right-3 space-y-2">
+<p class="text-white font-bold text-sm leading-tight line-clamp-1">森林里的秘密</p>
+<button class="w-full py-1.5 bg-white/20 backdrop-blur-md border border-white/30 rounded-lg text-white text-[11px] font-bold uppercase tracking-wider active:bg-white/40">继续编辑</button>
+</div>
+</div>
+</div>
+<!-- Book 4 (Published) -->
+<div class="relative group active:scale-[0.98] transition-all duration-200">
+<div class="aspect-[3/4] rounded-2xl bg-surface-container-lowest shadow-lg overflow-hidden flex relative book-spine">
+<img alt="神奇画笔" class="absolute inset-0 w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCxxUDeOG5xCUqCbnj0u0qJrrrhaauoBG3eqVWphqvZLprgaZT0lUkg2ooDTZK8CWoHetzcNB32pTIAdoME_PXQH3Ljbdrnvsrkpw91UPT6rUg5IfNN7Mv687Jk6WSmpRU4raVpLN1PZcidu-Nz4lvWQ99flaE0WAFCVREFhscUU2YjYKl0R5ZzIXELXtUQ_koxOtqpXKZ01IxRvEitJqXu7kDl6jmddG5vZJywAOtaK6GXi0GfAkoD-U_-YgJz67jPNeMDh1TZmAXc"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
+<button class="absolute top-2 right-2 w-8 h-8 rounded-full bg-black/20 backdrop-blur-md flex items-center justify-center text-white active:bg-black/40">
+<span class="material-symbols-outlined text-lg">more_vert</span>
+</button>
+<div class="absolute top-2 left-2">
+<span class="bg-emerald-400/90 text-emerald-950 text-[10px] font-bold px-2 py-0.5 rounded-full backdrop-blur-md uppercase tracking-wider">Public</span>
+</div>
+<div class="absolute bottom-3 left-3 right-3">
+<p class="text-white font-bold text-sm leading-tight line-clamp-2">神奇画笔</p>
+</div>
+</div>
+</div>
+<!-- Book 5 (Published) -->
+<div class="relative group active:scale-[0.98] transition-all duration-200">
+<div class="aspect-[3/4] rounded-2xl bg-surface-container-lowest shadow-lg overflow-hidden flex relative book-spine">
+<img alt="极地滑雪赛" class="absolute inset-0 w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBI2OT0YdhZHWQXugrG44faBjWVRn0dHbq8VQGSTpIXrRStEwA8ieMkovjPqmzmsWtvwfKCkEuGJImomJABp-mJTbplKvIjIsEcIKAB4uwDOxTOvdz9QUORS_kQGy6lRBI7rliPd0cV3kxVJu2ANUUEMS_oATrPZfktV3rX-YQVEvKgcSFzLBmBr38_ynRPQHHZPL-49eM3yqozW7xiIKBh6wBJDowMK5nrl7ToxV9-n-lmJlvv8g3DEimKzyxreRMDiy3o2NaKTjFp"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
+<button class="absolute top-2 right-2 w-8 h-8 rounded-full bg-black/20 backdrop-blur-md flex items-center justify-center text-white active:bg-black/40">
+<span class="material-symbols-outlined text-lg">more_vert</span>
+</button>
+<div class="absolute top-2 left-2">
+<span class="bg-emerald-400/90 text-emerald-950 text-[10px] font-bold px-2 py-0.5 rounded-full backdrop-blur-md uppercase tracking-wider">Public</span>
+</div>
+<div class="absolute bottom-3 left-3 right-3">
+<p class="text-white font-bold text-sm leading-tight line-clamp-2">极地滑雪赛</p>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="bg-slate-50 dark:bg-slate-950 w-full py-8 mb-24">
+<div class="flex flex-col items-center gap-2 w-full">
+<p class="text-[10px] font-headline uppercase tracking-widest text-slate-400">© 2024 StoryCanvas AI</p>
+<div class="flex gap-4">
+<a class="text-[10px] font-headline uppercase tracking-widest text-slate-400 hover:text-indigo-500 transition-colors" href="#">Privacy</a>
+<a class="text-[10px] font-headline uppercase tracking-widest text-slate-400 hover:text-indigo-500 transition-colors" href="#">Terms</a>
+</div>
+</div>
+</footer>
+<!-- Bottom Navigation Bar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pb-6 pt-3 bg-white/70 dark:bg-slate-900/70 backdrop-blur-xl shadow-[0_-8px_32px_rgba(88,71,210,0.06)] rounded-t-[2rem]">
+<!-- Home -->
+<a class="flex flex-col items-center justify-center text-slate-500 dark:text-slate-400 py-1.5 hover:opacity-80 active:scale-90 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined mb-1">home</span>
+<span class="font-headline text-[12px] font-medium">首页</span>
+</a>
+<!-- Create -->
+<a class="flex flex-col items-center justify-center text-slate-500 dark:text-slate-400 py-1.5 hover:opacity-80 active:scale-90 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined mb-1">add_circle</span>
+<span class="font-headline text-[12px] font-medium">创作</span>
+</a>
+<!-- Bookshelf (ACTIVE) -->
+<a class="flex flex-col items-center justify-center bg-indigo-50 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-200 rounded-full px-6 py-1.5 active:scale-90 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined mb-1" style="font-variation-settings: 'FILL' 1;">library_books</span>
+<span class="font-headline text-[12px] font-semibold">书架</span>
+</a>
+</nav>
+</body></html>

@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+
+<html class="light" lang="zh-CN"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-secondary-fixed-variant": "#881d24",
+              "background": "#f7f9fc",
+              "surface-container": "#eceef1",
+              "on-surface-variant": "#494458",
+              "error-container": "#ffdad6",
+              "on-secondary-container": "#881d24",
+              "surface-container-low": "#f2f4f7",
+              "primary": "#5847d2",
+              "tertiary-container": "#63fbcf",
+              "primary-fixed": "#e4dfff",
+              "on-tertiary-fixed-variant": "#00513f",
+              "surface-variant": "#e0e3e6",
+              "outline": "#7a748a",
+              "outline-variant": "#cbc3dc",
+              "secondary": "#a83639",
+              "primary-fixed-dim": "#c6bfff",
+              "inverse-surface": "#2d3133",
+              "surface-dim": "#d8dadd",
+              "on-error": "#ffffff",
+              "on-secondary-fixed": "#410006",
+              "inverse-on-surface": "#eff1f4",
+              "tertiary-fixed": "#63fbcf",
+              "on-primary": "#ffffff",
+              "on-error-container": "#93000a",
+              "on-primary-fixed": "#160066",
+              "surface-container-high": "#e6e8eb",
+              "surface-tint": "#5847d2",
+              "secondary-fixed-dim": "#ffb3b0",
+              "on-tertiary": "#ffffff",
+              "secondary-fixed": "#ffdad8",
+              "surface-container-lowest": "#ffffff",
+              "secondary-container": "#ffdad8",
+              "inverse-primary": "#c6bfff",
+              "on-tertiary-container": "#00513f",
+              "surface-container-highest": "#e0e3e6",
+              "tertiary-fixed-dim": "#3fdeb4",
+              "on-primary-fixed-variant": "#4029ba",
+              "on-background": "#191c1e",
+              "error": "#ba1a1a",
+              "on-tertiary-fixed": "#002118",
+              "surface": "#f7f9fc",
+              "primary-container": "#e4dfff",
+              "on-primary-container": "#4029ba",
+              "surface-bright": "#f7f9fc",
+              "on-surface": "#191c1e",
+              "tertiary": "#006b54",
+              "on-secondary": "#ffffff"
+            },
+            fontFamily: {
+              "headline": ["Plus Jakarta Sans"],
+              "body": ["Plus Jakarta Sans"],
+              "label": ["Plus Jakarta Sans"]
+            },
+            borderRadius: {"DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+        @keyframes loading-bar {
+            0% { transform: translateX(-100%); }
+            50% { transform: translateX(0%); }
+            100% { transform: translateX(100%); }
+        }
+        .animate-loading {
+            animation: loading-bar 2s infinite ease-in-out;
+        }
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<style>
+        body {
+          min-height: max(884px, 100dvh);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body min-h-screen flex flex-col">
+<!-- TopAppBar -->
+<header class="bg-white/80 backdrop-blur-md dark:bg-slate-900/80 w-full top-0 sticky z-40 border-b border-surface-variant/30">
+<div class="flex items-center justify-between px-6 py-4 w-full">
+<div class="flex items-center gap-4">
+<button class="text-on-surface-variant active:scale-95 duration-200">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<h1 class="text-xl font-extrabold tracking-tight text-primary font-headline">StoryCanvas AI</h1>
+</div>
+<div class="w-9 h-9 rounded-full overflow-hidden ring-2 ring-primary/20">
+<img alt="User Profile Avatar" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCbwG7HAlJEfx1w9nrikXHUo5BtVZsIgMb9n6Rs84UNQ6KL0CIAhUYma_5PvHqdKxD4CQxr377CQ9S6G1S7NsmWhebcKYVc9HmgFFl91UU0UMQjBnD1EAO2AS8MRf1PlpUAGaNDaHhS3BHpUwBdkLffjAsZqNwWQWIJtSz8pgWl_jtGIKi9s1z_jpf_y5OeSRYlkF2y9ikO0BuK1y1sSXKdxnrBp4XeOKpwKo6f0jpt5f4F-EhmbQ8VYgwKnPbeBK5g9IcFa65_m1bQ"/>
+</div>
+</div>
+</header>
+<main class="flex-grow px-6 pt-6 pb-32 max-w-md mx-auto w-full">
+<!-- Section 1: Story Idea -->
+<section class="mb-8">
+<div class="flex items-center justify-between mb-4">
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">
+<span class="text-primary material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">auto_stories</span>
+</div>
+<label class="text-sm font-bold tracking-wide text-on-surface font-label">故事构思</label>
+</div>
+<button class="flex items-center gap-1 text-xs text-primary font-bold px-3 py-1.5 bg-primary-fixed rounded-full active:scale-95 transition-transform shadow-sm">
+<span class="material-symbols-outlined text-[14px]">bolt</span>
+                    帮我完善
+                </button>
+</div>
+<div class="bg-white rounded-2xl p-1.5 shadow-sm border border-surface-variant/50 transition-all focus-within:ring-2 focus-within:ring-primary/20 focus-within:border-primary">
+<textarea class="w-full min-h-[140px] bg-transparent border-none focus:ring-0 text-on-surface placeholder:text-outline/60 p-3 text-base leading-relaxed" placeholder="写下一个奇妙的想法，或者试试：一只住在云端的小猫..."></textarea>
+</div>
+<!-- Quick Start Chips (New/Updated) -->
+<div class="mt-4">
+<p class="text-[11px] font-bold text-outline uppercase tracking-wider mb-2 ml-1">灵感快速启动</p>
+<div class="overflow-x-auto flex gap-2 no-scrollbar pb-2">
+<button class="flex-shrink-0 px-4 py-2 rounded-full bg-surface-container-lowest border border-outline-variant/60 text-sm text-on-surface-variant hover:border-primary hover:text-primary transition-all active:scale-95 whitespace-nowrap flex items-center gap-1.5">
+<span class="text-base">🌈</span> 梦幻森林探险
+                    </button>
+<button class="flex-shrink-0 px-4 py-2 rounded-full bg-surface-container-lowest border border-outline-variant/60 text-sm text-on-surface-variant hover:border-primary hover:text-primary transition-all active:scale-95 whitespace-nowrap flex items-center gap-1.5">
+<span class="text-base">🚀</span> 太空生日派对
+                    </button>
+<button class="flex-shrink-0 px-4 py-2 rounded-full bg-surface-container-lowest border border-outline-variant/60 text-sm text-on-surface-variant hover:border-primary hover:text-primary transition-all active:scale-95 whitespace-nowrap flex items-center gap-1.5">
+<span class="text-base">🐲</span> 深海的小火龙
+                    </button>
+<button class="flex-shrink-0 px-4 py-2 rounded-full bg-surface-container-lowest border border-outline-variant/60 text-sm text-on-surface-variant hover:border-primary hover:text-primary transition-all active:scale-95 whitespace-nowrap flex items-center gap-1.5">
+<span class="text-base">🤖</span> 机器人的园艺
+                    </button>
+</div>
+</div>
+</section>
+<!-- Section 2: Visual Style -->
+<section class="mb-10">
+<div class="flex items-center gap-2 mb-4">
+<div class="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">
+<span class="text-primary material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">palette</span>
+</div>
+<label class="text-sm font-bold tracking-wide text-on-surface font-label">视觉风格</label>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<!-- Style Card: Anime -->
+<div class="relative group cursor-pointer active:scale-95 transition-transform">
+<div class="aspect-[4/5] rounded-2xl overflow-hidden bg-surface-container-lowest shadow-sm border border-transparent">
+<img class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAMovM4O1__HcGwmWKa1zmQNg-TIGIBL9GTrbrKWW8wuJ5nEYM5623e-q0Qkf9NKcDg7idBC0sT4cRyzscjlc8uUE6a-yDDRZU6yIUIF-7CAXjtiBy2DmABzIBwtS-zjGIc_D0VejBOvuBncSUGwp09c81UTnVFuEUDvDUGZDwxQ3miX-tCSQFFEPJix1fQwJKiDLdDGy7nYh9UTqds553o0Zp39c8L3oGTNj6IvIIZVTA5He9mKF8lwraOUohxCU8BLdg7_-s4SVWC"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+<div class="absolute bottom-3 left-3 right-3">
+<p class="text-white font-bold text-sm">日系动漫</p>
+</div>
+</div>
+</div>
+<!-- Style Card: Watercolor -->
+<div class="relative group cursor-pointer active:scale-95 transition-transform translate-y-2">
+<div class="aspect-[4/5] rounded-2xl overflow-hidden bg-surface-container-lowest shadow-sm border border-transparent">
+<img class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBZWR5DxkiKoLMc4MZ45snnm3cKRZqPDM5fHJ_7yREFrieUWOJu1Xm5Bf0G8w89zMhjH1EHxEcLNOa0L1mR0TEbeayi-Z1xGJbi9_zYRuVJ7ORnff7v3oD3kZbB3RKFj-CwT_KBRrpTjjhaxEW4xg5zlJBcc6Rt6rm0T2ynCcs_qNsuiWtgRFgCl511X3TmmmeaIfMOWI1TUeYPZJbqj-eK4QE7WhUfl4kj1ivlUYMPvdofysZ7KTGWyNvATCD-pgmUCr4wINJBPNaa"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+<div class="absolute bottom-3 left-3 right-3">
+<p class="text-white font-bold text-sm">唯美水彩</p>
+</div>
+</div>
+</div>
+<!-- Style Card: Sketch -->
+<div class="relative group cursor-pointer active:scale-95 transition-transform">
+<div class="aspect-[4/5] rounded-2xl overflow-hidden bg-surface-container-lowest shadow-sm border border-transparent">
+<img class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAouICVf8m32RydziMphbukKF1rAmQl4qmlkHtQDd3fOPFu88IJzyC7uupaggXa1SitC08TDTqZP44xxpGB2D6MUX2Qg1f_BIX1BpA2pV80z3c2tfhKKJmW7FSmFnEwSuqjbY-gyBa5IrASt8jMddJy053Kh2wU25SHrgxnFQfPADQ6f2p0Txbyqs4p_wwD4lxaRsNijX3wjSJtygJk03dElBScfJa0f7QAoSW8x4oaNyd0SVAp_FALwkuWmtBjMesZH3-fZs2jtjiK"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+<div class="absolute bottom-3 left-3 right-3">
+<p class="text-white font-bold text-sm">手绘素描</p>
+</div>
+</div>
+</div>
+<!-- Style Card: 3D (Selected) -->
+<div class="relative group cursor-pointer active:scale-95 transition-transform translate-y-2">
+<div class="aspect-[4/5] rounded-2xl overflow-hidden bg-surface-container-lowest shadow-md ring-4 ring-primary ring-offset-2 ring-offset-background">
+<img class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDBprj2bcaZIXHTGrTqFtAsf4oWC6kCc1Y1wgv-PnEQTPosqRGRddU3q9yd4JYNMcSWGFOKOrBdOzY1hxTlk7NgI3d5xB-aKP6B3wAo6PAx1KieWt5mtCyUtjD7WiRlH-ZbojiSoIEdeX1Rn-YChd4rjvlXJvUV50e4LzO2k4vmaaZbdg-5L-JNx1MZiFCeqZHURSY8hOSrpZtWSlW7WF8JKH3lzDkmR6PR_KGbxB8NushDxifUw68xxKRKpUgBzMFUq6QHA5vdNweQ"/>
+<div class="absolute inset-0 bg-gradient-to-t from-primary/90 via-primary/40 to-transparent"></div>
+<div class="absolute bottom-3 left-3 right-3">
+<p class="text-white font-bold text-sm">3D 立体绘本</p>
+</div>
+<div class="absolute top-3 right-3 w-6 h-6 rounded-full bg-white text-primary flex items-center justify-center shadow-md">
+<span class="material-symbols-outlined text-[16px] font-bold">check</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Generation Status (Updated for clearer progress) -->
+<section class="mt-8">
+<div class="bg-primary/5 rounded-3xl p-6 border border-primary/10 relative overflow-hidden">
+<div class="flex items-center justify-between mb-4">
+<div class="flex flex-col">
+<div class="flex items-center gap-2 mb-1">
+<span class="relative flex h-2 w-2">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+</span>
+<span class="text-xs font-bold text-primary uppercase tracking-widest">构思故事中...</span>
+</div>
+<p class="text-on-surface font-bold text-base">正在生成第一章：云端奇遇</p>
+</div>
+<div class="flex flex-col items-end">
+<span class="text-primary font-black text-xl">45<span class="text-sm font-bold">%</span></span>
+</div>
+</div>
+<div class="h-2.5 w-full bg-primary/10 rounded-full overflow-hidden">
+<div class="h-full bg-primary rounded-full relative overflow-hidden transition-all duration-500 ease-out" style="width: 45%">
+<div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent animate-loading"></div>
+</div>
+</div>
+<div class="mt-4 py-2 px-3 bg-white/50 rounded-xl flex items-start gap-3">
+<span class="material-symbols-outlined text-[18px] text-primary mt-0.5" style="font-variation-settings: 'FILL' 1;">auto_fix_high</span>
+<p class="text-[13px] text-on-surface-variant leading-tight">
+                        AI 正在为您精心渲染每一处细节，这一步通常需要 15-30 秒...
+                    </p>
+</div>
+</div>
+</section>
+<!-- Tips (Reduced prominence) -->
+<section class="mt-12 opacity-80">
+<div class="flex items-center gap-2 mb-3">
+<span class="material-symbols-outlined text-primary text-sm">info</span>
+<h3 class="font-bold text-xs uppercase tracking-widest text-on-surface-variant">温馨提示</h3>
+</div>
+<p class="text-on-surface-variant text-xs leading-relaxed px-1">
+                您可以尝试输入具体的角色、场景描述或故事情节。AI 将根据您的风格选择生成独特且连贯的绘本。
+            </p>
+</section>
+</main>
+<!-- FAB Button (Primary Action) -->
+<div class="fixed bottom-28 left-0 right-0 px-6 z-50">
+<button class="w-full h-16 bg-primary rounded-full shadow-[0_8px_32px_-4px_rgba(88,71,210,0.4)] flex items-center justify-center gap-3 active:scale-[0.96] transition-all group overflow-hidden">
+<div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
+<div class="flex items-center justify-center bg-white/20 rounded-full p-2">
+<span class="material-symbols-outlined text-white text-2xl" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+</div>
+<span class="text-white font-extrabold text-lg tracking-wider">立刻生成绘本</span>
+</button>
+</div>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pb-8 pt-3 bg-white/90 backdrop-blur-xl shadow-[0_-8px_30px_rgba(0,0,0,0.06)] rounded-t-[2.5rem] border-t border-surface-variant/20">
+<div class="flex flex-col items-center justify-center text-outline py-1 px-4 hover:text-primary transition-colors cursor-pointer group">
+<span class="material-symbols-outlined text-[26px] group-active:scale-90 transition-transform">home</span>
+<span class="text-[10px] font-bold mt-1">首页</span>
+</div>
+<div class="flex flex-col items-center justify-center text-primary py-1.5 px-8 rounded-2xl bg-primary/10 transition-all scale-105">
+<span class="material-symbols-outlined text-[26px]" style="font-variation-settings: 'FILL' 1;">add_circle</span>
+<span class="text-[10px] font-black mt-1">创作</span>
+</div>
+<div class="flex flex-col items-center justify-center text-outline py-1 px-4 hover:text-primary transition-colors cursor-pointer group">
+<span class="material-symbols-outlined text-[26px] group-active:scale-90 transition-transform">library_books</span>
+<span class="text-[10px] font-bold mt-1">书架</span>
+</div>
+</nav>
+<!-- Footer Space -->
+<footer class="flex flex-col items-center gap-2 w-full bg-background py-8 mb-24 opacity-40">
+<p class="text-[9px] uppercase tracking-[0.3em] font-bold">© 2024 StoryCanvas AI</p>
+</footer>
+</body></html>

@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>StoryCanvas AI - 预览与编辑</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-secondary-fixed-variant": "#881d24",
+              "background": "#f7f9fc",
+              "surface-container": "#eceef1",
+              "on-surface-variant": "#494458",
+              "error-container": "#ffdad6",
+              "on-secondary-container": "#881d24",
+              "surface-container-low": "#f2f4f7",
+              "primary": "#5847d2",
+              "tertiary-container": "#63fbcf",
+              "primary-fixed": "#e4dfff",
+              "on-tertiary-fixed-variant": "#00513f",
+              "surface-variant": "#e0e3e6",
+              "outline": "#7a748a",
+              "outline-variant": "#cbc3dc",
+              "secondary": "#a83639",
+              "primary-fixed-dim": "#c6bfff",
+              "inverse-surface": "#2d3133",
+              "surface-dim": "#d8dadd",
+              "on-error": "#ffffff",
+              "on-secondary-fixed": "#410006",
+              "inverse-on-surface": "#eff1f4",
+              "tertiary-fixed": "#63fbcf",
+              "on-primary": "#ffffff",
+              "on-error-container": "#93000a",
+              "on-primary-fixed": "#160066",
+              "surface-container-high": "#e6e8eb",
+              "surface-tint": "#5847d2",
+              "secondary-fixed-dim": "#ffb3b0",
+              "on-tertiary": "#ffffff",
+              "secondary-fixed": "#ffdad8",
+              "surface-container-lowest": "#ffffff",
+              "secondary-container": "#ffdad8",
+              "inverse-primary": "#c6bfff",
+              "on-tertiary-container": "#00513f",
+              "surface-container-highest": "#e0e3e6",
+              "tertiary-fixed-dim": "#3fdeb4",
+              "on-primary-fixed-variant": "#4029ba",
+              "on-background": "#191c1e",
+              "error": "#ba1a1a",
+              "on-tertiary-fixed": "#002118",
+              "surface": "#f7f9fc",
+              "primary-container": "#e4dfff",
+              "on-primary-container": "#4029ba",
+              "surface-bright": "#f7f9fc",
+              "on-surface": "#191c1e",
+              "tertiary": "#006b54",
+              "on-secondary": "#ffffff"
+            },
+            fontFamily: {
+              "headline": ["Plus Jakarta Sans"],
+              "body": ["Plus Jakarta Sans"],
+              "label": ["Plus Jakarta Sans"]
+            },
+            borderRadius: {"DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        body {
+            font-family: 'Plus Jakarta Sans', 'PingFang SC', 'Noto Sans SC', sans-serif;
+            background-color: #f7f9fc;
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+        .scrolled-header {
+            box-shadow: 0 4px 30px rgba(88, 71, 210, 0.04);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background min-h-screen pb-40">
+<!-- TopAppBar -->
+<header class="w-full top-0 sticky z-40 bg-slate-50 dark:bg-slate-900 flex items-center justify-between px-6 py-4 shadow-none">
+<div class="flex items-center gap-3">
+<button class="text-slate-700 dark:text-slate-200 hover:bg-slate-200/50 dark:hover:bg-slate-700/50 transition-colors p-2 rounded-full active:scale-95 duration-200">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<h1 class="text-xl font-bold tracking-tight text-indigo-700 dark:text-indigo-300 font-['Plus_Jakarta_Sans']">StoryCanvas AI</h1>
+</div>
+<div class="w-10 h-10 rounded-full bg-primary-container overflow-hidden active:scale-95 duration-200 border-2 border-primary/20">
+<img alt="User Profile Avatar" class="w-full h-full object-cover" data-alt="minimalist 3d avatar of a creative designer with glasses and a friendly expression on a soft purple background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAm7BA3U_Mu4gZfpNPFbZFGwVIw3Omyx0y3NutmsSxxzeHg2I5PSk9CvVgZzpvs-L1YX3s5Zm46ciN39RLXQ0EYWRolpGviJASnJQ8tCRpfyGPHh3bHkpInZPTLjkkI_Cyy_DVVy3DyKU--iuSHUwCF55orc0JyZfqEz4O6oszld7LLarDemLXR_c_QFCfBZGBpcFVspWB9umWiw4CXvxhUZdSRLE417tm05Xbev3gjmZpOC1okcYwDpmuvGwHMS7a3PANzx3V2ue82"/>
+</div>
+</header>
+<main class="px-6 pt-8 pb-12 max-w-2xl mx-auto">
+<!-- Hero Section -->
+<div class="mb-10 text-center">
+<h2 class="text-3xl font-extrabold tracking-tight text-on-background leading-tight mb-3">
+                你的奇幻故事已跃然纸上
+            </h2>
+<p class="text-on-surface-variant text-lg">正在编辑：森林中的小狐狸与发光的橡果</p>
+<button class="mt-6 inline-flex items-center gap-2 px-6 py-3 bg-surface-container-lowest text-primary font-semibold rounded-full shadow-sm border border-outline-variant/20 hover:bg-primary/5 transition-colors active:scale-95">
+<span class="material-symbols-outlined">picture_as_pdf</span>
+                导出 PDF
+            </button>
+</div>
+<!-- Story Canvas Cards -->
+<div class="space-y-12">
+<!-- Page 1 -->
+<div class="relative group">
+<div class="bg-surface-container-lowest rounded-xl overflow-hidden shadow-[0_32px_64px_-12px_rgba(88,71,210,0.06)] transform transition-transform hover:scale-[1.01] duration-300">
+<div class="relative aspect-square md:aspect-video overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="whimsical digital illustration of a small orange fox standing in a glowing mystical forest with oversized colorful mushrooms and fireflies" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDxOvU6JYBkxdM9wo7y_kz3I3YeXZYZ7qYWH_BDAN9ZopAn9JQQJgNmbnsel0Hbt3R7hlG9lAElP8tfP_T346wE0TezL60ev07C0fOkHWqoeZVUHCGMS5OXBYtOJo5nllK5arKGaJz4aaBwpTOMLdSL2Mf2QjsK-GiIcpTLEYTrT7ufAdsXwXBna3BRxCX8tk4LrT1yffA2oUdEA_Lz6oIpVpNwGlok-llpJySJ1K-jbC5KrxAyEufMjgziOZRCpJyb2fgqam9ja-qD"/>
+<button class="absolute top-4 right-4 p-3 bg-surface-container-lowest/90 backdrop-blur rounded-full text-primary shadow-lg hover:scale-110 transition-transform">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">edit</span>
+</button>
+</div>
+<div class="p-8">
+<div class="flex items-center justify-between mb-4">
+<span class="text-xs font-bold tracking-widest text-outline uppercase bg-surface-container px-3 py-1 rounded-full">PAGE 01</span>
+<span class="material-symbols-outlined text-outline-variant">drag_handle</span>
+</div>
+<p class="text-on-surface-variant leading-relaxed text-lg font-medium">
+                            在那片被晨雾笼罩的古老森林里，住着一只名叫皮皮的小狐狸。他总是充满好奇心，尤其是对那些长在发光橡树下的神奇种子。
+                        </p>
+</div>
+</div>
+</div>
+<!-- Page 2 -->
+<div class="relative group">
+<div class="bg-surface-container-lowest rounded-xl overflow-hidden shadow-[0_32px_64px_-12px_rgba(88,71,210,0.06)] transform transition-transform hover:scale-[1.01] duration-300">
+<div class="relative aspect-square md:aspect-video overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="stunning digital painting of a mountain landscape with a crystalline blue lake reflecting a starry purple night sky and floating lanterns" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB06zWXetczEsWXCQon7h5rlADilX2qnvoHNUzDpLwjQpf30HVQgqToeNW3YnEAZqXvaX8g9ZBrwC982m70TbBwL60JG1BRi4RnMbG-BhwxfReEhzqXR1LHS2vw-kmXAwKg5fyEYs8HaRUB7_Pq1J3U-ZNA71LRoQFUJwokbIYiQ4ycj7OpV3Ov7ZhiCZWgj3F8uT-Fx8XBc_5M9oOABmGVAAPbFpC-OUENWProiTS3vvaYEL4Sb0X9JzRoQE6rGOFq6p2ByCKDfTcf"/>
+<button class="absolute top-4 right-4 p-3 bg-surface-container-lowest/90 backdrop-blur rounded-full text-primary shadow-lg hover:scale-110 transition-transform">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">edit</span>
+</button>
+</div>
+<div class="p-8">
+<div class="flex items-center justify-between mb-4">
+<span class="text-xs font-bold tracking-widest text-outline uppercase bg-surface-container px-3 py-1 rounded-full">PAGE 02</span>
+<span class="material-symbols-outlined text-outline-variant">drag_handle</span>
+</div>
+<p class="text-on-surface-variant leading-relaxed text-lg font-medium">
+                            一天傍晚，皮皮发现了一颗闪烁着淡紫色光芒的橡果。当他伸出爪子触碰它时，整个森林似乎都安静了下来，树叶开始低声吟唱。
+                        </p>
+</div>
+</div>
+</div>
+<!-- Page 3 (Add Placeholder) -->
+<button class="w-full py-12 border-2 border-dashed border-outline-variant rounded-xl flex flex-col items-center justify-center gap-3 text-outline hover:bg-primary/5 hover:border-primary/40 transition-all active:scale-[0.98]">
+<span class="material-symbols-outlined text-4xl">add_photo_alternate</span>
+<span class="font-bold tracking-wide">添加新章节</span>
+</button>
+</div>
+</main>
+<!-- Persistent Action Bar -->
+<div class="fixed bottom-0 left-0 w-full z-50 px-4 pb-8 pt-4 glass-panel border-t border-outline-variant/10">
+<div class="max-w-2xl mx-auto flex gap-4">
+<button class="flex-1 py-4 px-6 bg-surface-container-high text-on-surface font-bold rounded-full hover:bg-surface-variant transition-colors active:scale-95 duration-200">
+                保存草稿
+            </button>
+<button class="flex-[1.5] py-4 px-6 bg-gradient-to-r from-primary to-primary-fixed-dim text-white font-bold rounded-full shadow-[0_8px_24px_rgba(88,71,210,0.3)] hover:opacity-90 transition-opacity active:scale-95 duration-200">
+                立即发布
+            </button>
+</div>
+</div>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-[60] flex justify-around items-center px-4 pb-6 pt-3 bg-white/70 dark:bg-slate-900/70 backdrop-blur-xl shadow-[0_-8px_32px_rgba(88,71,210,0.06)] rounded-t-[2rem] hidden md:hidden">
+<a class="flex flex-col items-center justify-center text-slate-500 dark:text-slate-400 py-1.5 hover:opacity-80 active:scale-90 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="font-['Plus_Jakarta_Sans'] text-[12px] font-medium mt-1">首页</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-indigo-50 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-200 rounded-full px-6 py-1.5 hover:opacity-80 active:scale-90 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">add_circle</span>
+<span class="font-['Plus_Jakarta_Sans'] text-[12px] font-medium mt-1">创作</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-500 dark:text-slate-400 py-1.5 hover:opacity-80 active:scale-90 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined">library_books</span>
+<span class="font-['Plus_Jakarta_Sans'] text-[12px] font-medium mt-1">书架</span>
+</a>
+</nav>
+<!-- Footer -->
+<footer class="w-full py-8 mb-32 flex flex-col items-center gap-2 bg-slate-50 dark:bg-slate-950">
+<div class="flex gap-6 mb-2">
+<a class="text-[10px] font-['Plus_Jakarta_Sans'] uppercase tracking-widest text-slate-400 hover:text-indigo-500 transition-colors" href="#">Privacy</a>
+<a class="text-[10px] font-['Plus_Jakarta_Sans'] uppercase tracking-widest text-slate-400 hover:text-indigo-500 transition-colors" href="#">Terms</a>
+</div>
+<p class="text-[10px] font-['Plus_Jakarta_Sans'] uppercase tracking-widest text-slate-400">© 2024 StoryCanvas AI</p>
+</footer>
+</body></html>

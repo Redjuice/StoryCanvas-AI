@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+
+<html class="light" lang="zh-CN"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>登录 - StoryCanvas AI</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "error": "#ba1a1a",
+              "on-tertiary-container": "#00513f",
+              "secondary-fixed-dim": "#ffb3b0",
+              "inverse-surface": "#2d3133",
+              "surface-container-highest": "#e0e3e6",
+              "on-surface": "#191c1e",
+              "secondary-fixed": "#ffdad8",
+              "on-error-container": "#93000a",
+              "inverse-on-surface": "#eff1f4",
+              "primary": "#5847d2",
+              "surface": "#f7f9fc",
+              "on-surface-variant": "#494458",
+              "tertiary": "#006b54",
+              "on-primary-fixed-variant": "#4029ba",
+              "on-tertiary": "#ffffff",
+              "surface-container-lowest": "#ffffff",
+              "surface-dim": "#d8dadd",
+              "on-tertiary-fixed-variant": "#00513f",
+              "primary-fixed-dim": "#c6bfff",
+              "outline": "#7a748a",
+              "surface-variant": "#e0e3e6",
+              "secondary": "#a83639",
+              "on-secondary-fixed-variant": "#881d24",
+              "on-primary-fixed": "#160066",
+              "tertiary-fixed-dim": "#3fdeb4",
+              "surface-bright": "#f7f9fc",
+              "tertiary-container": "#63fbcf",
+              "primary-container": "#e4dfff",
+              "surface-container-high": "#e6e8eb",
+              "outline-variant": "#cbc3dc",
+              "on-primary-container": "#4029ba",
+              "background": "#f7f9fc",
+              "error-container": "#ffdad6",
+              "on-tertiary-fixed": "#002118",
+              "primary-fixed": "#e4dfff",
+              "on-background": "#191c1e",
+              "on-secondary": "#ffffff",
+              "on-secondary-container": "#881d24",
+              "inverse-primary": "#c6bfff",
+              "on-primary": "#ffffff",
+              "surface-container": "#eceef1",
+              "secondary-container": "#ffdad8",
+              "on-error": "#ffffff",
+              "tertiary-fixed": "#63fbcf",
+              "surface-container-low": "#f2f4f7",
+              "on-secondary-fixed": "#410006",
+              "surface-tint": "#5847d2"
+            },
+            fontFamily: {
+              "headline": ["Plus Jakarta Sans", "PingFang SC"],
+              "body": ["Plus Jakarta Sans", "PingFang SC"],
+              "label": ["Plus Jakarta Sans", "PingFang SC"]
+            },
+            borderRadius: {"DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+        .text-gradient {
+            background: linear-gradient(135deg, #5847d2 0%, #c6bfff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    </style>
+</head>
+<body class="bg-surface font-body text-on-surface min-h-screen flex flex-col">
+<!-- Auth Main Container -->
+<main class="flex-grow flex items-center justify-center p-6 relative overflow-hidden">
+<!-- Playful Background Elements -->
+<div class="absolute top-[-10%] left-[-5%] w-[400px] h-[400px] bg-primary-container opacity-20 rounded-full blur-[100px]"></div>
+<div class="absolute bottom-[-10%] right-[-5%] w-[500px] h-[500px] bg-tertiary-container opacity-20 rounded-full blur-[100px]"></div>
+<!-- Login Card Wrapper -->
+<div class="w-full max-w-md z-10">
+<!-- Logo Section -->
+<div class="text-center mb-10">
+<div class="inline-flex items-center justify-center w-16 h-16 bg-primary rounded-xl mb-4 shadow-lg shadow-primary/20">
+<span class="material-symbols-outlined text-white text-4xl" data-icon="auto_stories">auto_stories</span>
+</div>
+<h1 class="text-3xl font-extrabold tracking-tight text-on-background mb-2">StoryCanvas AI</h1>
+<p class="text-on-surface-variant font-medium">绘梦画布，开启您的AI创作之旅</p>
+</div>
+<!-- Card Content -->
+<div class="glass-panel rounded-xl p-8 shadow-[0_32px_64px_-12px_rgba(88,71,210,0.06)] border border-outline-variant/15">
+<!-- Tab Headers (Simplified) -->
+<div class="flex justify-center gap-8 mb-8">
+<button class="text-lg font-bold text-primary border-b-2 border-primary pb-1">登录</button>
+<button class="text-lg font-medium text-on-surface-variant hover:text-primary transition-colors pb-1">注册</button>
+</div>
+<form class="space-y-6">
+<!-- Email Field -->
+<div class="space-y-2">
+<label class="block text-xs font-bold uppercase tracking-wider text-on-surface-variant px-1">邮箱地址</label>
+<div class="relative group">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline group-focus-within:text-primary transition-colors" data-icon="mail">mail</span>
+<input class="w-full pl-12 pr-4 py-3.5 bg-surface-container-low border-none rounded-lg focus:ring-2 focus:ring-primary/20 focus:bg-surface-container-lowest transition-all text-on-surface placeholder:text-outline/60" placeholder="example@storycanvas.ai" type="email"/>
+</div>
+</div>
+<!-- Password Field -->
+<div class="space-y-2">
+<div class="flex justify-between items-center px-1">
+<label class="text-xs font-bold uppercase tracking-wider text-on-surface-variant">密码</label>
+<a class="text-xs font-semibold text-primary hover:underline decoration-2 underline-offset-4" href="#">忘记密码？</a>
+</div>
+<div class="relative group">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline group-focus-within:text-primary transition-colors" data-icon="lock">lock</span>
+<input class="w-full pl-12 pr-12 py-3.5 bg-surface-container-low border-none rounded-lg focus:ring-2 focus:ring-primary/20 focus:bg-surface-container-lowest transition-all text-on-surface placeholder:text-outline/60" placeholder="••••••••" type="password"/>
+<button class="absolute right-4 top-1/2 -translate-y-1/2 text-outline hover:text-primary" type="button">
+<span class="material-symbols-outlined" data-icon="visibility">visibility</span>
+</button>
+</div>
+</div>
+<!-- Main Login Button -->
+<button class="w-full py-4 bg-gradient-to-r from-primary to-primary-fixed-dim text-white font-bold rounded-full shadow-lg shadow-primary/20 hover:scale-[1.02] active:scale-95 transition-all duration-200" type="submit">
+                        登录 / 注册
+                    </button>
+<!-- Divider -->
+<div class="flex items-center gap-4 py-2">
+<div class="h-[1px] flex-grow bg-outline-variant/30"></div>
+<span class="text-xs font-bold text-outline uppercase tracking-widest">或通过以下方式</span>
+<div class="h-[1px] flex-grow bg-outline-variant/30"></div>
+</div>
+<!-- Social Login -->
+<button class="w-full flex items-center justify-center gap-3 py-3.5 bg-surface-container-lowest border border-outline-variant/30 rounded-full hover:bg-surface-container-low hover:scale-[1.02] active:scale-95 transition-all duration-200" type="button">
+<div class="w-6 h-6 flex items-center justify-center bg-[#07C160] rounded-full">
+<span class="material-symbols-outlined text-white text-sm" data-icon="chat" style="font-variation-settings: 'FILL' 1;">chat</span>
+</div>
+<span class="font-bold text-on-surface-variant">微信登录</span>
+</button>
+</form>
+</div>
+<!-- Footer Quote / Visual Hint -->
+<div class="mt-12 flex flex-col items-center gap-4 opacity-70">
+<div class="flex -space-x-2">
+<img alt="User" class="w-10 h-10 rounded-full border-2 border-surface" data-alt="close-up portrait of a friendly digital character with glasses and a blue sweater on a soft pastel background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBJnWTR3AXAG6OLPRkIgHg2psBCCjS00U8COL0gYRh9chuusu3_-tB3havCa1dnvG2WROHqi-1HjPG3L-j_B9VnqCuGkoxMhkK7kjDOfwa8kZGjOu7NzvvO2ucK_noIRklt8lP0wVXm_ttMF3Twu_OOYxATMkR0vw3pndF7HubPODzCoLuLxUlrxkdW40MQBmxLEIOBvHrICZHNxpZmoUcuSyxvUy94ah2N5bmB_LI1YriRBjIW0Y3m-eGrhMakUpTAWS4pjtTTQTKf"/>
+<img alt="User" class="w-10 h-10 rounded-full border-2 border-surface" data-alt="close-up portrait of a cheerful digital character with long hair and a yellow scarf on a soft warm background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCy-vni_U2PMy17453xsfjzcr6B6fBamKRiGmlZRexNoqKuJvN1erp44S2PE9ZQ0nroGyb-xihGfinjDG1F5U4Zm6UgboyiJutj-5iAmLNGNAYnwNoL_e-R7AIwtDBidCIkjlc2u3CS5GZFlFOtNP0GTJX2TluNK5-PO8MNOmEsZnygmyFV1izRcy30p7_J4c4zt0nKtNfS-rcE-ug92nmcBypArduotCEOEUDpd-g-znEQJBYeZHz6wuN0Mt2y8bLBgLSHS7CABQsK"/>
+<img alt="User" class="w-10 h-10 rounded-full border-2 border-surface" data-alt="close-up portrait of a smiling digital character with a beanie and a green hoodie on a soft teal background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB_2Hb-eU73Cm1TYVqDBPAyBktEcMKK4refi0OHF4HQIEQXXA63pFND-zwwJZrdzh9yrHkNhk1A80b99t5cQdxWm4Ozo543UBkxtBmA1eyyh8QfU4ZvGQhqKwrfTmHHmPT5W_F2P3BvADlurLToCqRF0thmTtkM0Rn-ZnJmTTHajVxxc3eDN4rO6rH3UlwD8PUJNs3BO9z3miP59vy40A-f8Eyuc8QQ8umE4yfD0fIHj5unciAUtExaCe3zcrGeoROkRzUSkc___7XL"/>
+</div>
+<p class="text-sm font-medium text-on-surface-variant text-center max-w-[280px]">
+                    加入超过 <span class="text-primary font-bold">10,000+</span> 位创作者，<br/>用 AI 编织你的梦幻画卷。
+                </p>
+</div>
+</div>
+<!-- Floating Decorative Book Icons (Asymmetric) -->
+<div class="hidden lg:block absolute left-20 top-1/4 scale-150 opacity-20 rotate-[-12deg]">
+<span class="material-symbols-outlined text-primary text-9xl" data-icon="menu_book">menu_book</span>
+</div>
+<div class="hidden lg:block absolute right-32 bottom-20 scale-125 opacity-10 rotate-[15deg]">
+<span class="material-symbols-outlined text-tertiary text-8xl" data-icon="brush">brush</span>
+</div>
+</main>
+<!-- Footer Component from JSON -->
+<footer class="w-full py-12 px-8 mt-auto bg-[#eceef1] dark:bg-slate-950">
+<div class="flex flex-col md:flex-row justify-between items-center gap-6 max-w-screen-2xl mx-auto">
+<div class="text-lg font-bold text-[#7C4DFF]">StoryCanvas AI</div>
+<div class="flex flex-wrap justify-center gap-6">
+<a class="font-['Plus_Jakarta_Sans','PingFang_SC'] text-sm text-[#494458] dark:text-slate-400 hover:text-[#7C4DFF] hover:underline decoration-2 underline-offset-4 transition-all duration-300" href="#">联系我们</a>
+<a class="font-['Plus_Jakarta_Sans','PingFang_SC'] text-sm text-[#494458] dark:text-slate-400 hover:text-[#7C4DFF] hover:underline decoration-2 underline-offset-4 transition-all duration-300" href="#">服务条款</a>
+<a class="font-['Plus_Jakarta_Sans','PingFang_SC'] text-sm text-[#494458] dark:text-slate-400 hover:text-[#7C4DFF] hover:underline decoration-2 underline-offset-4 transition-all duration-300" href="#">隐私政策</a>
+<a class="font-['Plus_Jakarta_Sans','PingFang_SC'] text-sm text-[#494458] dark:text-slate-400 hover:text-[#7C4DFF] hover:underline decoration-2 underline-offset-4 transition-all duration-300" href="#">社区指南</a>
+</div>
+<div class="font-['Plus_Jakarta_Sans','PingFang_SC'] text-sm text-[#494458] dark:text-slate-400">
+                © 2024 StoryCanvas AI. 绘梦画布版权所有
+            </div>
+</div>
+</footer>
+</body></html>

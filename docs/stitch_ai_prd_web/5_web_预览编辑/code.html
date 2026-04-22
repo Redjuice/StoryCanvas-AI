@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+
+<html class="light" lang="zh-CN"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>StoryCanvas AI - 生成预览与编辑</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Noto+Sans+SC:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "error": "#ba1a1a",
+              "on-tertiary-container": "#00513f",
+              "secondary-fixed-dim": "#ffb3b0",
+              "inverse-surface": "#2d3133",
+              "surface-container-highest": "#e0e3e6",
+              "on-surface": "#191c1e",
+              "secondary-fixed": "#ffdad8",
+              "on-error-container": "#93000a",
+              "inverse-on-surface": "#eff1f4",
+              "primary": "#5847d2",
+              "surface": "#f7f9fc",
+              "on-surface-variant": "#494458",
+              "tertiary": "#006b54",
+              "on-primary-fixed-variant": "#4029ba",
+              "on-tertiary": "#ffffff",
+              "surface-container-lowest": "#ffffff",
+              "surface-dim": "#d8dadd",
+              "on-tertiary-fixed-variant": "#00513f",
+              "primary-fixed-dim": "#c6bfff",
+              "outline": "#7a748a",
+              "surface-variant": "#e0e3e6",
+              "secondary": "#a83639",
+              "on-secondary-fixed-variant": "#881d24",
+              "on-primary-fixed": "#160066",
+              "tertiary-fixed-dim": "#3fdeb4",
+              "surface-bright": "#f7f9fc",
+              "tertiary-container": "#63fbcf",
+              "primary-container": "#e4dfff",
+              "surface-container-high": "#e6e8eb",
+              "outline-variant": "#cbc3dc",
+              "on-primary-container": "#4029ba",
+              "background": "#f7f9fc",
+              "error-container": "#ffdad6",
+              "on-tertiary-fixed": "#002118",
+              "primary-fixed": "#e4dfff",
+              "on-background": "#191c1e",
+              "on-secondary": "#ffffff",
+              "on-secondary-container": "#881d24",
+              "inverse-primary": "#c6bfff",
+              "on-primary": "#ffffff",
+              "surface-container": "#eceef1",
+              "secondary-container": "#ffdad8",
+              "on-error": "#ffffff",
+              "tertiary-fixed": "#63fbcf",
+              "surface-container-low": "#f2f4f7",
+              "on-secondary-fixed": "#410006",
+              "surface-tint": "#5847d2"
+            },
+            fontFamily: {
+              "headline": ["Plus Jakarta Sans", "Noto Sans SC"],
+              "body": ["Plus Jakarta Sans", "Noto Sans SC"],
+              "label": ["Plus Jakarta Sans", "Noto Sans SC"]
+            },
+            borderRadius: {"DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        vertical-align: middle;
+      }
+      .glass-panel {
+        background: rgba(255, 255, 255, 0.7);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+      }
+      .asymmetric-grid > div:nth-child(even) {
+        margin-top: 1.7rem;
+      }
+      .custom-scrollbar::-webkit-scrollbar {
+        width: 6px;
+      }
+      .custom-scrollbar::-webkit-scrollbar-track {
+        background: transparent;
+      }
+      .custom-scrollbar::-webkit-scrollbar-thumb {
+        background: #cbc3dc;
+        border-radius: 10px;
+      }
+    </style>
+</head>
+<body class="bg-surface font-body text-on-background selection:bg-primary-container selection:text-on-primary-container">
+<!-- TopNavBar -->
+<header class="w-full sticky top-0 z-50 bg-[#f7f9fc] dark:bg-slate-900">
+<nav class="flex justify-between items-center px-8 h-20 max-w-screen-2xl mx-auto">
+<div class="text-2xl font-black text-[#7C4DFF] tracking-tight">StoryCanvas AI</div>
+<div class="hidden md:flex items-center gap-8 font-['Plus_Jakarta_Sans','PingFang_SC'] text-base font-medium">
+<a class="text-[#494458] dark:text-slate-400 hover:text-[#7C4DFF] transition-colors" href="#">首页</a>
+<a class="text-[#7C4DFF] font-bold border-b-2 border-[#7C4DFF] pb-1" href="#">创作台</a>
+<a class="text-[#494458] dark:text-slate-400 hover:text-[#7C4DFF] transition-colors" href="#">我的书架</a>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 hover:bg-[#eceef1]/50 dark:hover:bg-slate-800/50 rounded-xl transition-all active:scale-95">
+<span class="material-symbols-outlined text-[#494458] dark:text-slate-400" data-icon="account_circle">account_circle</span>
+</button>
+</div>
+</nav>
+</header>
+<main class="max-w-screen-2xl mx-auto px-8 py-12">
+<!-- Hero Header -->
+<div class="mb-16">
+<span class="text-primary font-bold tracking-widest text-sm uppercase mb-4 block">AI Generation Preview</span>
+<h1 class="text-5xl font-black text-on-surface mb-6 tracking-tight leading-tight">
+                你的奇幻故事已<span class="text-primary italic">跃然纸上</span>
+</h1>
+<p class="text-on-surface-variant text-xl max-w-2xl leading-relaxed">
+                这是 AI 为你生成的故事画册。你可以微调文字，或者对不满意的插图进行重新生成。
+            </p>
+</div>
+<!-- Editor Canvas Section -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+<!-- Left: Sidebar Tools / Story Info (Glassmorphism) -->
+<aside class="lg:col-span-3 sticky top-32 space-y-6">
+<div class="glass-panel p-8 rounded-xl border border-outline-variant/15">
+<h3 class="font-bold text-lg mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary" data-icon="auto_stories">auto_stories</span>
+                        故事详情
+                    </h3>
+<div class="space-y-4">
+<div>
+<label class="block text-xs font-bold text-on-surface-variant uppercase mb-2">书名</label>
+<input class="w-full bg-surface-container-low border-none rounded-md px-4 py-3 focus:ring-2 focus:ring-primary/20 focus:bg-surface-container-lowest transition-all" type="text" value="勇敢的小狗 Sparky"/>
+</div>
+<div>
+<label class="block text-xs font-bold text-on-surface-variant uppercase mb-2">画风</label>
+<div class="bg-surface-container-low rounded-md px-4 py-3 text-on-surface text-sm flex items-center justify-between">
+<span>温馨水彩绘本风</span>
+<span class="material-symbols-outlined text-sm" data-icon="palette">palette</span>
+</div>
+</div>
+</div>
+</div>
+<div class="p-8 rounded-xl bg-primary-container text-on-primary-container">
+<h4 class="font-bold mb-2">准备好了吗？</h4>
+<p class="text-sm opacity-80 mb-6 leading-relaxed">满意所有页面后，即可导出高清 PDF 文件进行分享或打印。</p>
+<button class="w-full bg-primary text-on-primary py-4 rounded-full font-bold shadow-lg shadow-primary/20 hover:scale-[1.02] transition-transform flex items-center justify-center gap-2">
+<span class="material-symbols-outlined" data-icon="picture_as_pdf">picture_as_pdf</span>
+                        导出 PDF
+                    </button>
+</div>
+</aside>
+<!-- Right: Story Grid (The Canvas) -->
+<div class="lg:col-span-9">
+<div class="asymmetric-grid grid grid-cols-1 md:grid-cols-2 gap-10">
+<!-- Page 1 -->
+<div class="group bg-surface-container-lowest p-6 rounded-lg transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_32px_64px_-12px_rgba(88,71,210,0.06)]">
+<div class="relative mb-6 rounded-lg overflow-hidden aspect-[4/3]">
+<img alt="Sparky looking out the window" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" data-alt="Golden retriever puppy sitting on a soft rug, looking out a sunlit window at a green garden, whimsical watercolor illustration style" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBLh83sW9YdSYMsLIK0KDpcWk8r7RMHub--rpzObvvCCpUuL1wjZdi5kYorE6nLYmQdanW3LkrAFkfGoH7gydlXFAgUCgKoZ4yuIDjJA5hxvn5PrZrlwSL9KzIVhttOslQ__DWQfXY90shV3GkPM0bF7TGgbBMxVhoGgOLv7xqVZRVQ6pkl37bI8-WL1HQuck--t6G0X935hKTe3GuAwVa2xFetR8dp0Q-H_0yVXFfGVHjI3_ACXGBjPO6gOuEU1EYI8TnrXDPCjrKC"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4">
+<button class="bg-surface-container-lowest text-primary px-4 py-2 rounded-full text-xs font-bold flex items-center gap-2">
+<span class="material-symbols-outlined text-sm" data-icon="refresh">refresh</span>
+                                    重新生成图片
+                                </button>
+</div>
+</div>
+<div class="space-y-3">
+<div class="flex justify-between items-center">
+<span class="text-xs font-bold text-primary uppercase tracking-widest">Page 1</span>
+<span class="material-symbols-outlined text-on-surface-variant/40 hover:text-primary cursor-pointer transition-colors" data-icon="edit_note">edit_note</span>
+</div>
+<textarea class="w-full bg-surface-container-low border-none rounded-md p-4 text-on-surface-variant text-sm leading-relaxed focus:ring-2 focus:ring-primary/20 custom-scrollbar h-32 resize-none">很久很久以前，有一只名叫 Sparky 的勇敢小狗。他住在一个洒满阳光的小房子里，每天最喜欢的事情就是盯着窗外的森林。他说：“总有一天，我要去森林里冒险！”</textarea>
+</div>
+</div>
+<!-- Page 2 -->
+<div class="group bg-surface-container-lowest p-6 rounded-lg transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_32px_64px_-12px_rgba(88,71,210,0.06)]">
+<div class="relative mb-6 rounded-lg overflow-hidden aspect-[4/3]">
+<img alt="Sparky in the forest" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" data-alt="Brave little puppy standing on a mossy log in a magical forest with glowing butterflies and soft green light filtering through trees, watercolor style" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAF99MIuxjQZCD4pa6NxzctPcudCZ_h-5BJkLFp9uKHtsMFSLRzS7XzluI7Oer1Avsj48vJmNr0ftfXDAK1MFgDiww-hqnavYbE__f8oSqr0bCAscvDlV4qhW0bWseXF2aNMrWSKU9-1S3AcNQZNxKlXiOH9YYiAC4tk_-qDx7x1M7PZkJN01oRHHYKeacYPtYbdKAtxUjrfzZUGroWheII42eXmkJaLyGnhGXxw3hrJvbhmSVGuUmx9zVeJ7r1h_sJLX46-pXuxm_D"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4">
+<button class="bg-surface-container-lowest text-primary px-4 py-2 rounded-full text-xs font-bold flex items-center gap-2">
+<span class="material-symbols-outlined text-sm" data-icon="refresh">refresh</span>
+                                    重新生成图片
+                                </button>
+</div>
+</div>
+<div class="space-y-3">
+<div class="flex justify-between items-center">
+<span class="text-xs font-bold text-primary uppercase tracking-widest">Page 2</span>
+<span class="material-symbols-outlined text-on-surface-variant/40 hover:text-primary cursor-pointer transition-colors" data-icon="edit_note">edit_note</span>
+</div>
+<textarea class="w-full bg-surface-container-low border-none rounded-md p-4 text-on-surface-variant text-sm leading-relaxed focus:ring-2 focus:ring-primary/20 custom-scrollbar h-32 resize-none">这一天，机会终于来了。Sparky 悄悄溜出门，跑进了色彩斑斓的森林。森林里到处是发光的蝴蝶和高大的橡树。他觉得自己现在是个真正的英雄了！</textarea>
+</div>
+</div>
+<!-- Page 3 -->
+<div class="group bg-surface-container-lowest p-6 rounded-lg transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_32px_64px_-12px_rgba(88,71,210,0.06)]">
+<div class="relative mb-6 rounded-lg overflow-hidden aspect-[4/3]">
+<img alt="Sparky meets a squirrel" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" data-alt="Puppy talking to a small friendly squirrel wearing a tiny red hat on a branch, bright morning sun, soft bokeh, watercolor book art" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBjL9XusWLjCmtVv6YjeHR7XtHvwnJNsfW5IYA5mG7HZmrlKstOrqsJMka8QyAsqapliAecpb_1hVJnUbJ0zBZ_8LcupWyXpsUky2sRF9ykooS5GWOags1lAsBblcSMZ39WE-n8LpcDWfkRr3sI9H4lgGxzuONxZRe8rV7GOoosOAkBANL7ySZUfYjm6XvOv7IzEEabn5Lp2-Qppjv84V8hxALUojrFQJfJJ0RDAGmkciNG3mpbA41i_yFU7zJhUi3SG6u6ywol4bR_"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4">
+<button class="bg-surface-container-lowest text-primary px-4 py-2 rounded-full text-xs font-bold flex items-center gap-2">
+<span class="material-symbols-outlined text-sm" data-icon="refresh">refresh</span>
+                                    重新生成图片
+                                </button>
+</div>
+</div>
+<div class="space-y-3">
+<div class="flex justify-between items-center">
+<span class="text-xs font-bold text-primary uppercase tracking-widest">Page 3</span>
+<span class="material-symbols-outlined text-on-surface-variant/40 hover:text-primary cursor-pointer transition-colors" data-icon="edit_note">edit_note</span>
+</div>
+<textarea class="w-full bg-surface-container-low border-none rounded-md p-4 text-on-surface-variant text-sm leading-relaxed focus:ring-2 focus:ring-primary/20 custom-scrollbar h-32 resize-none">在小路旁，他遇到了一只戴着红色小帽子的松鼠。松鼠说：“前面有一条湍急的小溪，你敢过去吗？” Sparky 拍拍胸脯，大声回答：“没问题，我很勇敢的！”</textarea>
+</div>
+</div>
+<!-- Add New Page Placeholder -->
+<div class="group bg-surface-container border-2 border-dashed border-outline-variant/30 p-6 rounded-lg flex flex-col items-center justify-center min-h-[400px] hover:bg-surface-container-high hover:border-primary/40 transition-all cursor-pointer">
+<div class="w-16 h-16 rounded-full bg-white flex items-center justify-center mb-4 shadow-sm group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-primary text-3xl" data-icon="add">add</span>
+</div>
+<p class="font-bold text-on-surface-variant">添加新页面</p>
+<p class="text-xs text-on-surface-variant/60 mt-1">扩展你的故事内容</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Global Action Bar (Sticky at bottom for mobile/quick access) -->
+<div class="mt-20 flex justify-center pb-12">
+<div class="glass-panel p-2 rounded-full border border-outline-variant/20 shadow-xl flex items-center gap-2">
+<button class="px-8 py-3 rounded-full hover:bg-surface-container-high transition-colors font-bold text-on-surface-variant flex items-center gap-2">
+<span class="material-symbols-outlined text-sm" data-icon="save">save</span>
+                    保存草稿
+                </button>
+<div class="w-[1px] h-6 bg-outline-variant/30"></div>
+<button class="bg-primary text-on-primary px-10 py-3 rounded-full font-bold shadow-lg shadow-primary/20 hover:scale-[1.02] transition-transform flex items-center gap-2">
+<span class="material-symbols-outlined" data-icon="publish">publish</span>
+                    立即发布
+                </button>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="w-full py-12 px-8 mt-auto bg-[#eceef1] dark:bg-slate-950 font-['Plus_Jakarta_Sans','PingFang_SC'] text-sm text-[#494458] dark:text-slate-400">
+<div class="flex flex-col md:flex-row justify-between items-center gap-6 max-w-screen-2xl mx-auto">
+<div class="text-lg font-bold text-[#7C4DFF]">StoryCanvas AI</div>
+<div class="flex gap-8">
+<a class="hover:text-[#7C4DFF] transition-all duration-300 hover:underline decoration-2 underline-offset-4" href="#">联系我们</a>
+<a class="hover:text-[#7C4DFF] transition-all duration-300 hover:underline decoration-2 underline-offset-4" href="#">服务条款</a>
+<a class="hover:text-[#7C4DFF] transition-all duration-300 hover:underline decoration-2 underline-offset-4" href="#">隐私政策</a>
+<a class="hover:text-[#7C4DFF] transition-all duration-300 hover:underline decoration-2 underline-offset-4" href="#">社区指南</a>
+</div>
+<div class="opacity-60">© 2024 StoryCanvas AI. 绘梦画布版权所有</div>
+</div>
+</footer>
+</body></html>

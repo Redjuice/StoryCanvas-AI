@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+
+<html class="light" lang="zh-CN"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "error": "#ba1a1a",
+              "on-tertiary-container": "#00513f",
+              "secondary-fixed-dim": "#ffb3b0",
+              "inverse-surface": "#2d3133",
+              "surface-container-highest": "#e0e3e6",
+              "on-surface": "#191c1e",
+              "secondary-fixed": "#ffdad8",
+              "on-error-container": "#93000a",
+              "inverse-on-surface": "#eff1f4",
+              "primary": "#5847d2",
+              "surface": "#f7f9fc",
+              "on-surface-variant": "#494458",
+              "tertiary": "#006b54",
+              "on-primary-fixed-variant": "#4029ba",
+              "on-tertiary": "#ffffff",
+              "surface-container-lowest": "#ffffff",
+              "surface-dim": "#d8dadd",
+              "on-tertiary-fixed-variant": "#00513f",
+              "primary-fixed-dim": "#c6bfff",
+              "outline": "#7a748a",
+              "surface-variant": "#e0e3e6",
+              "secondary": "#a83639",
+              "on-secondary-fixed-variant": "#881d24",
+              "on-primary-fixed": "#160066",
+              "tertiary-fixed-dim": "#3fdeb4",
+              "surface-bright": "#f7f9fc",
+              "tertiary-container": "#63fbcf",
+              "primary-container": "#e4dfff",
+              "surface-container-high": "#e6e8eb",
+              "outline-variant": "#cbc3dc",
+              "on-primary-container": "#4029ba",
+              "background": "#f7f9fc",
+              "error-container": "#ffdad6",
+              "on-tertiary-fixed": "#002118",
+              "primary-fixed": "#e4dfff",
+              "on-background": "#191c1e",
+              "on-secondary": "#ffffff",
+              "on-secondary-container": "#881d24",
+              "inverse-primary": "#c6bfff",
+              "on-primary": "#ffffff",
+              "surface-container": "#eceef1",
+              "secondary-container": "#ffdad8",
+              "on-error": "#ffffff",
+              "tertiary-fixed": "#63fbcf",
+              "surface-container-low": "#f2f4f7",
+              "on-secondary-fixed": "#410006",
+              "surface-tint": "#5847d2"
+            },
+            fontFamily: {
+              "headline": ["Plus Jakarta Sans", "PingFang SC", "sans-serif"],
+              "body": ["Plus Jakarta Sans", "PingFang SC", "sans-serif"],
+              "label": ["Plus Jakarta Sans", "PingFang SC", "sans-serif"]
+            },
+            borderRadius: {"DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+      .glass-panel {
+        background: rgba(255, 255, 255, 0.7);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+      }
+      .book-card-shadow {
+        box-shadow: 0 4px 20px -2px rgba(88, 71, 210, 0.08), 0 10px 30px -4px rgba(88, 71, 210, 0.04);
+      }
+    </style>
+</head>
+<body class="bg-surface font-body text-on-surface min-h-screen flex flex-col">
+<!-- TopNavBar -->
+<nav class="w-full sticky top-0 z-50 bg-[#f7f9fc] dark:bg-slate-900 border-b border-outline-variant/20">
+<div class="flex justify-between items-center px-8 h-20 max-w-screen-2xl mx-auto">
+<div class="text-2xl font-black text-[#7C4DFF] tracking-tight">StoryCanvas AI</div>
+<div class="hidden md:flex items-center gap-8 font-['Plus_Jakarta_Sans','PingFang_SC'] text-base font-medium">
+<a class="text-[#494458] dark:text-slate-400 hover:text-[#7C4DFF] transition-colors" href="#">首页</a>
+<a class="text-[#494458] dark:text-slate-400 hover:text-[#7C4DFF] transition-colors" href="#">创作台</a>
+<a class="text-[#7C4DFF] font-bold border-b-2 border-[#7C4DFF] pb-1" href="#">我的书架</a>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 hover:bg-[#eceef1]/50 dark:hover:bg-slate-800/50 rounded-xl transition-all active:scale-95 duration-200 ease-out">
+<span class="material-symbols-outlined text-[#494458] dark:text-slate-400">account_circle</span>
+</button>
+</div>
+</div>
+</nav>
+<!-- Main Content -->
+<main class="flex-grow max-w-screen-2xl mx-auto w-full px-8 py-12">
+<!-- Header Section -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-10">
+<div>
+<h1 class="text-5xl font-extrabold tracking-tight text-on-surface mb-4 font-headline">我的书架</h1>
+<p class="text-on-surface-variant text-lg max-w-xl leading-relaxed">回顾您的每一篇奇幻旅程，继续创作或分享这些由 AI 魔法编织的故事。</p>
+</div>
+<div class="relative w-full md:w-96 group">
+<div class="absolute inset-y-0 left-5 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-outline">search</span>
+</div>
+<input class="w-full pl-14 pr-6 py-4 bg-surface-container-low border-none rounded-2xl focus:ring-2 focus:ring-primary/20 focus:bg-surface-container-lowest transition-all text-on-surface placeholder:text-outline/60 shadow-sm" placeholder="搜索故事标题..." type="text"/>
+</div>
+</div>
+<!-- Filter & Sort Bar -->
+<div class="flex flex-wrap items-center justify-between gap-4 mb-12 py-4 border-y border-outline-variant/30">
+<div class="flex items-center gap-2">
+<button class="px-5 py-2 rounded-full bg-primary text-white text-sm font-semibold shadow-md shadow-primary/20 transition-all">全部故事</button>
+<button class="px-5 py-2 rounded-full hover:bg-surface-container-high text-on-surface-variant text-sm font-semibold transition-all">已发布</button>
+<button class="px-5 py-2 rounded-full hover:bg-surface-container-high text-on-surface-variant text-sm font-semibold transition-all">草稿</button>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-2 text-sm font-medium text-on-surface-variant">
+<span>排序方式:</span>
+<button class="flex items-center gap-1 text-primary">
+                        最近生成
+                        <span class="material-symbols-outlined text-sm">expand_more</span>
+</button>
+</div>
+<div class="h-6 w-px bg-outline-variant/50"></div>
+<div class="flex items-center gap-1">
+<button class="p-2 text-primary bg-primary-container/30 rounded-lg">
+<span class="material-symbols-outlined">grid_view</span>
+</button>
+<button class="p-2 text-outline hover:bg-surface-container-high rounded-lg transition-colors">
+<span class="material-symbols-outlined">format_list_bulleted</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Bookshelf Grid -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-8 gap-y-12 pb-20">
+<!-- Book Card 1 -->
+<div class="group flex flex-col bg-surface-container-lowest rounded-2xl overflow-hidden border border-outline-variant/20 hover:border-primary/30 transition-all duration-300 book-card-shadow">
+<div class="relative aspect-[3/4] overflow-hidden">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCHpgfb86oR5IC9s62Z73cLjyaAeIL5YuwwLQvvGT7dfD1F0R08CvqtAGZ-ct6jlz7DrPxRp9dYtI0vJRBQ_5KbWYLeH3N5_mai4eP4N51Hhn9zCavaWW2Oj858yUrn9RGGAnQ8uT-18P3BSYQw_DxHE7P9si5E8wgU6uLY7uL7WzJ3GOcsZyKyoMMRiLTLDlGfG96dHCksDqAUtMC7OkCxyXBVREg6z5hOQJP_F0rInvNLTKNdG5I6zK-OHHv5ZV7zwujIL6PyW586"/>
+<!-- Status Badge -->
+<div class="absolute top-4 left-4 bg-tertiary-container/90 backdrop-blur-md text-on-tertiary-container px-3 py-1 rounded-full text-xs font-bold flex items-center gap-1 shadow-sm">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span>
+                        已发布
+                    </div>
+<!-- Hover Action Overlay -->
+<div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-3">
+<button class="bg-white/90 backdrop-blur hover:bg-white text-primary px-6 py-2.5 rounded-full text-sm font-bold transition-all transform translate-y-4 group-hover:translate-y-0 duration-300">继续编辑</button>
+</div>
+</div>
+<div class="p-5 flex flex-col gap-3">
+<div class="flex justify-between items-start gap-2">
+<h3 class="text-lg font-bold text-on-surface line-clamp-1 group-hover:text-primary transition-colors">小猫的城市冒险</h3>
+<button class="p-1 hover:bg-surface-container-high rounded-full transition-colors relative">
+<span class="material-symbols-outlined text-outline text-xl">more_vert</span>
+</button>
+</div>
+<div class="flex items-center justify-between mt-auto">
+<div class="flex items-center gap-1.5 text-on-surface-variant/70 text-xs font-medium">
+<span class="material-symbols-outlined text-sm">calendar_today</span>
+                            2024-03-18
+                        </div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-sm text-outline hover:text-primary cursor-pointer transition-colors">push_pin</span>
+<span class="material-symbols-outlined text-sm text-outline hover:text-primary cursor-pointer transition-colors">share</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Book Card 2 -->
+<div class="group flex flex-col bg-surface-container-lowest rounded-2xl overflow-hidden border border-outline-variant/20 hover:border-primary/30 transition-all duration-300 book-card-shadow">
+<div class="relative aspect-[3/4] overflow-hidden">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAsiKMoY7UupAP2PxYV2_KqgEoN6_gTmaDbZ7csn1LaWyk5BrayO37d7NLy_x-AiLtaEIka2idfhTCvyVz3kZzSqKsK4e_W7eRQh4HI0nHDdLxCiQwI-pMbzrnMap9f4ioZTDxBjlBNsgTeQyPDefDLejWCvirAcmn3DdMKEZuMATw8bI3-MfS_ISM57wcVh3CqoYRvu3bsB7_ncYSdJThqlyJlVUoANt68a5PDr98RyjszW0ziE5VC53FofftVz0YEWbd_vj3RS0kS"/>
+<!-- Status Badge: Draft -->
+<div class="absolute top-4 left-4 bg-secondary-container/90 backdrop-blur-md text-on-secondary-container px-3 py-1 rounded-full text-xs font-bold flex items-center gap-1 shadow-sm">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+                        草稿
+                    </div>
+<div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-3">
+<button class="bg-white/90 backdrop-blur hover:bg-white text-primary px-6 py-2.5 rounded-full text-sm font-bold transition-all transform translate-y-4 group-hover:translate-y-0 duration-300">继续编辑</button>
+</div>
+</div>
+<div class="p-5 flex flex-col gap-3">
+<div class="flex justify-between items-start gap-2">
+<h3 class="text-lg font-bold text-on-surface line-clamp-1 group-hover:text-primary transition-colors">星际小航海家</h3>
+<button class="p-1 hover:bg-surface-container-high rounded-full transition-colors relative">
+<span class="material-symbols-outlined text-outline text-xl">more_vert</span>
+</button>
+</div>
+<div class="flex items-center justify-between mt-auto">
+<div class="flex items-center gap-1.5 text-on-surface-variant/70 text-xs font-medium">
+<span class="material-symbols-outlined text-sm">calendar_today</span>
+                            2024-03-15
+                        </div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-sm text-outline hover:text-primary cursor-pointer transition-colors">push_pin</span>
+<span class="material-symbols-outlined text-sm text-outline hover:text-primary cursor-pointer transition-colors">share</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Book Card 3 -->
+<div class="group flex flex-col bg-surface-container-lowest rounded-2xl overflow-hidden border border-outline-variant/20 hover:border-primary/30 transition-all duration-300 book-card-shadow">
+<div class="relative aspect-[3/4] overflow-hidden">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA9xZYieJDj9uPjs6bre6szdk4eTdktRn5Y96zlvgtAx36PR_Cp_OsUUNNeFHIuGJlgK9_UGqX_qc5jdeUsCeZ6sG212kZKrCHHGFofWvNFET5005b1sZLM6pwVT9xjaK2Rg4gaRn4jjtnONMVK-jXjrQDQmxEUxBwLHPyiARrMt6JqkHL_HX8IyglEduglTgBNJa6AwnKYX8YsvSt0fI0sfVt-R1Oa8EniBVk3Islm3D81WETNsvJagntrmL8KIfL3MylSdaHtE54O"/>
+<div class="absolute top-4 left-4 bg-tertiary-container/90 backdrop-blur-md text-on-tertiary-container px-3 py-1 rounded-full text-xs font-bold flex items-center gap-1 shadow-sm">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span>
+                        已发布
+                    </div>
+<div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-3">
+<button class="bg-white/90 backdrop-blur hover:bg-white text-primary px-6 py-2.5 rounded-full text-sm font-bold transition-all transform translate-y-4 group-hover:translate-y-0 duration-300">继续编辑</button>
+</div>
+</div>
+<div class="p-5 flex flex-col gap-3">
+<div class="flex justify-between items-start gap-2">
+<h3 class="text-lg font-bold text-on-surface line-clamp-1 group-hover:text-primary transition-colors">秘密花园的约定</h3>
+<button class="p-1 hover:bg-surface-container-high rounded-full transition-colors relative">
+<span class="material-symbols-outlined text-outline text-xl">more_vert</span>
+</button>
+</div>
+<div class="flex items-center justify-between mt-auto">
+<div class="flex items-center gap-1.5 text-on-surface-variant/70 text-xs font-medium">
+<span class="material-symbols-outlined text-sm">calendar_today</span>
+                            2024-03-12
+                        </div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-sm text-outline hover:text-primary cursor-pointer transition-colors">push_pin</span>
+<span class="material-symbols-outlined text-sm text-outline hover:text-primary cursor-pointer transition-colors">share</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Book Card 4 -->
+<div class="group flex flex-col bg-surface-container-lowest rounded-2xl overflow-hidden border border-outline-variant/20 hover:border-primary/30 transition-all duration-300 book-card-shadow">
+<div class="relative aspect-[3/4] overflow-hidden">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDjFhqJ5tfDWG2dNNofNLZZM8mtvPHI5d-bHwk7hJjwQRcGDOqo6_yCvkMtUyjHwSYFrp3JMgcwrh53R7XXFI9EBh1Igsd6sUfRCu1mq3X1aJmRyto0HwmR16kINJ_Va7t2bXGCl5-6L-CCkhVIQ9ve6IF9vZQGKnGqpTOPY4V99Hkz52MogiesX7xCrf_6mIA-S55afUch0CwrU4_nEXI9CTpwyXKIVGAMdcvkO9sqX_Z2jMXWBw1gewr_d5ATm3I4NBXhWJdqMIi0"/>
+<div class="absolute top-4 left-4 bg-tertiary-container/90 backdrop-blur-md text-on-tertiary-container px-3 py-1 rounded-full text-xs font-bold flex items-center gap-1 shadow-sm">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span>
+                        已发布
+                    </div>
+<div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-3">
+<button class="bg-white/90 backdrop-blur hover:bg-white text-primary px-6 py-2.5 rounded-full text-sm font-bold transition-all transform translate-y-4 group-hover:translate-y-0 duration-300">继续编辑</button>
+</div>
+</div>
+<div class="p-5 flex flex-col gap-3">
+<div class="flex justify-between items-start gap-2">
+<h3 class="text-lg font-bold text-on-surface line-clamp-1 group-hover:text-primary transition-colors">深海人鱼之歌</h3>
+<button class="p-1 hover:bg-surface-container-high rounded-full transition-colors relative">
+<span class="material-symbols-outlined text-outline text-xl">more_vert</span>
+</button>
+</div>
+<div class="flex items-center justify-between mt-auto">
+<div class="flex items-center gap-1.5 text-on-surface-variant/70 text-xs font-medium">
+<span class="material-symbols-outlined text-sm">calendar_today</span>
+                            2024-03-10
+                        </div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-sm text-outline hover:text-primary cursor-pointer transition-colors">push_pin</span>
+<span class="material-symbols-outlined text-sm text-outline hover:text-primary cursor-pointer transition-colors">share</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Create New Placeholder -->
+<div class="group flex flex-col">
+<button class="relative aspect-[3/4] rounded-2xl border-4 border-dashed border-outline-variant/30 flex flex-col items-center justify-center gap-4 bg-surface-container-low hover:bg-surface-container-high hover:border-primary/50 transition-all group-hover:scale-[1.02]">
+<div class="w-16 h-16 rounded-full bg-primary-container flex items-center justify-center text-primary group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-4xl">add</span>
+</div>
+<div class="text-center">
+<span class="block text-lg font-bold text-primary">创作新故事</span>
+<span class="text-xs text-outline font-medium mt-1">用 AI 开启新的冒险</span>
+</div>
+</button>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="w-full py-12 px-8 mt-auto bg-[#eceef1] dark:bg-slate-950 border-t border-outline-variant/20">
+<div class="flex flex-col md:flex-row justify-between items-center gap-6 max-w-screen-2xl mx-auto font-['Plus_Jakarta_Sans','PingFang_SC'] text-sm text-[#494458] dark:text-slate-400">
+<div class="text-lg font-bold text-[#7C4DFF]">StoryCanvas AI</div>
+<div class="flex gap-8">
+<a class="hover:text-[#7C4DFF] hover:underline decoration-2 underline-offset-4 transition-all duration-300" href="#">联系我们</a>
+<a class="hover:text-[#7C4DFF] hover:underline decoration-2 underline-offset-4 transition-all duration-300" href="#">服务条款</a>
+<a class="hover:text-[#7C4DFF] hover:underline decoration-2 underline-offset-4 transition-all duration-300" href="#">隐私政策</a>
+<a class="hover:text-[#7C4DFF] hover:underline decoration-2 underline-offset-4 transition-all duration-300" href="#">社区指南</a>
+</div>
+<div class="opacity-60">© 2024 StoryCanvas AI. 绘梦画布版权所有</div>
+</div>
+</footer>
+<!-- FAB -->
+<button class="fixed bottom-8 right-8 w-16 h-16 bg-gradient-to-br from-primary to-primary-fixed-dim text-white rounded-full shadow-[0_16px_32px_-8px_rgba(88,71,210,0.4)] flex items-center justify-center hover:scale-110 active:scale-95 transition-all z-40 group">
+<span class="material-symbols-outlined text-3xl">auto_fix_high</span>
+<span class="absolute right-20 bg-inverse-surface text-inverse-on-surface px-4 py-2 rounded-xl text-sm font-bold opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">
+            开始 AI 创作
+        </span>
+</button>
+</body></html>
