@@ -20,7 +20,7 @@
         </div>
 
         <!-- 卡片内容 -->
-        <div class="bg-white/70 backdrop-blur-xl rounded-2xl p-6 md:p-8 shadow-[0_32px_64px_-12px_rgba(88,71,210,0.06)] border border-[#cbc3dc]/15">
+        <div class="bg-white rounded-2xl p-6 md:p-8 shadow-[0_32px_64px_-12px_rgba(88,71,210,0.06)] border border-[#cbc3dc]/15">
           <!-- 标签页头 -->
           <div class="flex justify-center gap-6 md:gap-8 mb-6 md:mb-8">
             <router-link to="/auth/login" class="text-base md:text-lg font-medium text-[#494458] hover:text-[#5847d2] transition-colors pb-1">登录</router-link>
