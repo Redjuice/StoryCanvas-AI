@@ -2,6 +2,8 @@ import { Controller, Post, Body, HttpCode, HttpStatus } from '@nestjs/common'
 import { AuthService } from './auth.service'
 import { RegisterDto } from './dto/register.dto'
 import { LoginDto } from './dto/login.dto'
+import { SendResetCodeDto } from './dto/send-reset-code.dto'
+import { ResetPasswordDto } from './dto/reset-password.dto'
 
 @Controller('auth')
 export class AuthController {
@@ -22,5 +24,17 @@ export class AuthController {
   @HttpCode(HttpStatus.OK)
   async logout() {
     return { message: '登出成功' }
+  }
+
+  @Post('send-reset-code')
+  @HttpCode(HttpStatus.OK)
+  async sendResetCode(@Body() dto: SendResetCodeDto) {
+    return this.authService.sendResetCode(dto)
+  }
+
+  @Post('reset-password')
+  @HttpCode(HttpStatus.OK)
+  async resetPassword(@Body() dto: ResetPasswordDto) {
+    return this.authService.resetPassword(dto)
   }
 }

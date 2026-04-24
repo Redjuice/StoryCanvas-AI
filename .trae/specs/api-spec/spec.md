@@ -34,6 +34,16 @@
 - **WHEN** POST /api/auth/logout
 - **THEN** 返回登出成功消息
 
+#### Scenario: 发送重置验证码
+- **WHEN** POST /api/auth/send-reset-code
+- **BODY** { email }
+- **THEN** 发送验证码到用户邮箱
+
+#### Scenario: 重置密码
+- **WHEN** POST /api/auth/reset-password
+- **BODY** { email, code, newPassword }
+- **THEN** 验证验证码并更新密码
+
 ### Requirement: 故事模块
 系统 SHALL 提供故事/绘本的完整CRUD功能。
 

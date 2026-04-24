@@ -4,8 +4,11 @@
 - [x] POST /api/auth/register 用户注册
 - [x] POST /api/auth/login 用户登录
 - [x] POST /api/auth/logout 用户登出
+- [x] POST /api/auth/send-reset-code 发送重置验证码
+- [x] POST /api/auth/reset-password 重置密码
 - [x] JWT Token 生成和验证
 - [x] 密码加密存储
+- [x] 邮件服务（验证码发送）
 
 ## 用户模块
 - [x] GET /api/user/info 获取用户信息

@@ -51,7 +51,7 @@
             <div class="space-y-2">
               <div class="flex justify-between items-center px-1">
                 <label class="text-xs font-bold uppercase tracking-wider text-[#7a748a]">密码</label>
-                <a href="#" class="text-xs font-semibold text-[#5847d2] hover:underline decoration-2 underline-offset-4">忘记密码？</a>
+                <router-link to="/auth/forgot-password" class="text-xs font-semibold text-[#5847d2] hover:underline decoration-2 underline-offset-4">忘记密码？</router-link>
               </div>
               <div class="relative group">
                 <svg class="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#7a748a] group-focus-within:text-[#5847d2] transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">

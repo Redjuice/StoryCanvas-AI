@@ -19,3 +19,11 @@ export const updateUserInfo = (data) => {
 export const logout = () => {
   return axios.post('/auth/logout')
 }
+
+export const sendResetCode = (data) => {
+  return axios.post('/auth/send-reset-code', data)
+}
+
+export const resetPassword = (data) => {
+  return axios.post('/auth/reset-password', data)
+}
