@@ -1,43 +1,54 @@
-# 头脑风暴工作流
+---
+name: "brainstorming"
+description: "You MUST use this before any creative work - creating features, building components, adding functionality, or modifying behavior. Explores user intent, requirements and design before implementation."
+---
 
-## 概述
-在任何创意工作之前使用——创建功能、构建组件、添加功能或修改行为。在实现之前探索用户意图、需求和设计。
+# Brainstorming Ideas Into Designs
 
-## 流程
+## Overview
 
-### 理解想法
-- 先了解当前项目状态（文件、文档、最近提交）
-- 一次问一个问题来细化想法
-- 尽可能使用多选题，开放式也可以
-- 每条消息只问一个问题——如果主题需要更多探索，拆分成多个问题
-- 关注理解：目的、约束、成功标准
+Help turn ideas into fully formed designs and specs through natural collaborative dialogue.
 
-### 探索方案
-- 提出 2-3 种不同方案及其权衡
-- 以对话方式呈现选项，附带推荐和理由
-- 优先推荐方案并解释原因
+Start by understanding the current project context, then ask questions one at a time to refine the idea. Once you understand what you're building, present the design in small sections (200-300 words), checking after each section whether it looks right so far.
 
-### 呈现设计
-- 一旦理解了要构建什么，呈现设计
-- 分成 200-300 字的小节
-- 每个小节后询问是否正确
-- 覆盖：架构、组件、数据流、错误处理、测试
-- 准备回退澄清不合理的地方
+## The Process
 
-## 设计之后
+**Understanding the idea:**
+- Check out the current project state first (files, docs, recent commits)
+- Ask questions one at a time to refine the idea
+- Prefer multiple choice questions when possible, but open-ended is fine too
+- Only one question per message - if a topic needs more exploration, break it into multiple questions
+- Focus on understanding: purpose, constraints, success criteria
 
-### 文档化
-- 将验证通过的设计写入 `docs/plans/YYYY-MM-DD-<topic>-design.md`
-- 提交设计文档到 git
+**Exploring approaches:**
+- Propose 2-3 different approaches with trade-offs
+- Present options conversationally with your recommendation and reasoning
+- Lead with your recommended option and explain why
 
-### 实现（如果继续）
-- 询问："准备好设置实现了吗？"
-- 创建详细的实现计划
+**Presenting the design:**
+- Once you believe you understand what you're building, present the design
+- Break it into sections of 200-300 words
+- Ask after each section whether it looks right so far
+- Cover: architecture, components, data flow, error handling, testing
+- Be ready to go back and clarify if something doesn't make sense
 
-## 关键原则
-- **一次一个问题**——不要用多个问题淹没用户
-- **优先多选题**——比开放式更容易回答
-- **严格执行 YAGNI**——从所有设计中移除不必要的功能
-- **探索替代方案**——在确定之前总是提出 2-3 种方案
-- **增量验证**——分段呈现设计，逐段验证
-- **保持灵活**——当不合理时回退澄清
+## After the Design
+
+**Documentation:**
+- Write the validated design to `docs/plans/YYYY-MM-DD-<topic>-design.md`
+- Use elements-of-style:writing-clearly-and-concisely skill if available
+- Commit the design document to git
+
+**Implementation (if continuing):**
+- Ask: "Ready to set up for implementation?"
+- Use superpowers:using-git-worktrees to create isolated workspace
+- Use superpowers:writing-plans to create detailed implementation plan
+
+## Key Principles
+
+- **One question at a time** - Don't overwhelm with multiple questions
+- **Multiple choice preferred** - Easier to answer than open-ended when possible
+- **YAGNI ruthlessly** - Remove unnecessary features from all designs
+- **Explore alternatives** - Always propose 2-3 approaches before settling
+- **Incremental validation** - Present design in sections, validate each
+- **Be flexible** - Go back and clarify when something doesn't make sense

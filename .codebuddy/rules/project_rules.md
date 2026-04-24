@@ -234,7 +234,7 @@ StoryCanvas-AI/
 │   ├── PRD.md
 │   ├── 技术方案.md
 │   └── 后端开发步骤.md
-├── .codebuddy/
-│   └── rules/
+├── .trae/
+│   └── project_rules.md
 └── README.md
 ```
