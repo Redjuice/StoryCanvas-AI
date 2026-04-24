@@ -22,7 +22,15 @@
         <!-- 卡片内容 -->
         <div class="bg-white rounded-2xl p-6 md:p-8 shadow-[0_32px_64px_-12px_rgba(88,71,210,0.06)] border border-[#cbc3dc]/15">
           <!-- 标签页头 -->
-          <div class="flex justify-center gap-6 md:gap-8 mb-6 md:mb-8">
+          <!-- 移动端: 圆角按钮组 -->
+          <div class="flex justify-center md:hidden mb-6">
+            <div class="bg-gray-100 rounded-xl p-1 flex w-full max-w-[200px]">
+              <button class="flex-1 py-2 px-4 rounded-lg bg-white shadow text-sm font-bold text-[#5847d2] transition-all">登录</button>
+              <router-link to="/auth/register" class="flex-1 py-2 px-4 rounded-lg text-sm font-medium text-[#494458] hover:text-[#5847d2] transition-all flex items-center justify-center">注册</router-link>
+            </div>
+          </div>
+          <!-- WEB端: 下划线样式 -->
+          <div class="hidden md:flex justify-center gap-6 md:gap-8 mb-6 md:mb-8">
             <button class="text-base md:text-lg font-bold text-[#5847d2] border-b-2 border-[#5847d2] pb-1">登录</button>
             <router-link to="/auth/register" class="text-base md:text-lg font-medium text-[#494458] hover:text-[#5847d2] transition-colors pb-1">注册</router-link>
           </div>
