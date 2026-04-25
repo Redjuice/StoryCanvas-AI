@@ -139,10 +139,13 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '@/stores/user'
+import { useToastStore } from '@/stores/toast'
 import { login } from '@/api/auth'
+import { getErrorMessage } from '@/api/index'
 
 const router = useRouter()
 const userStore = useUserStore()
+const toastStore = useToastStore()
 const form = ref({ email: '', password: '' })
 const loading = ref(false)
 const showPassword = ref(false)
@@ -153,9 +156,11 @@ const onLogin = async () => {
     const res = await login(form.value)
     userStore.setToken(res.data.token)
     userStore.setUserInfo(res.data.user)
+    toastStore.success('登录成功')
     router.push('/')
   } catch (error) {
-    alert(error.message || '登录失败')
+    const message = getErrorMessage(error)
+    toastStore.error(message)
   } finally {
     loading.value = false
   }

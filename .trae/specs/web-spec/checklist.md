@@ -8,6 +8,8 @@
 - [x] 状态管理（Pinia）
 - [x] API封装（Axios）
 - [x] 环境变量配置
+- [x] Toast 提示组件
+- [x] Toast Store (Pinia)
 
 ## 第二阶段：用户模块
 - [x] 登录页面（响应式）

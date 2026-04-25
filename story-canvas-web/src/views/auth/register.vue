@@ -155,9 +155,12 @@
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+import { useToastStore } from '@/stores/toast'
 import { register } from '@/api/auth'
+import { getErrorMessage } from '@/api/index'
 
 const router = useRouter()
+const toastStore = useToastStore()
 const form = ref({ email: '', password: '', confirmPassword: '' })
 const loading = ref(false)
 const showPassword = ref(false)
@@ -165,7 +168,7 @@ const showConfirmPassword = ref(false)
 
 const onRegister = async () => {
   if (form.value.password !== form.value.confirmPassword) {
-    alert('两次密码输入不一致')
+    toastStore.error('两次密码输入不一致')
     return
   }
   loading.value = true
@@ -175,10 +178,10 @@ const onRegister = async () => {
       password: form.value.password,
       nickname: form.value.email.split('@')[0]
     })
-    alert('注册成功')
+    toastStore.success('注册成功')
     router.push('/auth/login')
   } catch (error) {
-    alert(error.message || '注册失败')
+    toastStore.error(getErrorMessage(error))
   } finally {
     loading.value = false
   }

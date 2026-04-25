@@ -129,9 +129,12 @@
 <script setup>
 import { ref, reactive } from 'vue'
 import { useRouter } from 'vue-router'
+import { useToastStore } from '@/stores/toast'
 import { sendResetCode, resetPassword } from '@/api/auth'
+import { getErrorMessage } from '@/api/index'
 
 const router = useRouter()
+const toastStore = useToastStore()
 const form = reactive({
   email: '',
   code: '',
@@ -157,7 +160,7 @@ const startCountdown = () => {
 
 const sendCode = async () => {
   if (!form.email) {
-    alert('请输入邮箱地址')
+    toastStore.error('请输入邮箱地址')
     return
   }
   sending.value = true
@@ -165,9 +168,9 @@ const sendCode = async () => {
     await sendResetCode({ email: form.email })
     codeSent.value = true
     startCountdown()
-    alert('验证码已发送，请查收邮件')
+    toastStore.success('验证码已发送，请查收邮件')
   } catch (error) {
-    alert(error.message || '发送验证码失败')
+    toastStore.error(getErrorMessage(error))
   } finally {
     sending.value = false
   }
@@ -175,7 +178,7 @@ const sendCode = async () => {
 
 const onSubmit = async () => {
   if (form.newPassword !== form.confirmPassword) {
-    alert('两次密码输入不一致')
+    toastStore.error('两次密码输入不一致')
     return
   }
   loading.value = true
@@ -185,10 +188,10 @@ const onSubmit = async () => {
       code: form.code,
       newPassword: form.newPassword
     })
-    alert('密码重置成功，请使用新密码登录')
+    toastStore.success('密码重置成功，请使用新密码登录')
     router.push('/auth/login')
   } catch (error) {
-    alert(error.message || '密码重置失败')
+    toastStore.error(getErrorMessage(error))
   } finally {
     loading.value = false
   }
