@@ -160,11 +160,11 @@ OPENAI_API_KEY="your-openai-api-key"
 OPENAI_MODEL="gpt-4"
 OPENAI_BASE_URL="https://api.openai.com/v1"
 
-# 邮件配置
+# 邮件配置 (QQ邮箱)
 SMTP_HOST="smtp.qq.com"
 SMTP_PORT=587
-SMTP_USER="your-email@qq.com"
-SMTP_PASS="your-smtp-authorization-code"
+SMTP_USER="630352167@qq.com"
+SMTP_PASS="wntmcxjnlxivbdfh"
 
 # 服务配置
 PORT=3000

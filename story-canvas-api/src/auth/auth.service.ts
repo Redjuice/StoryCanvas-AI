@@ -96,7 +96,7 @@ export class AuthService {
       await this.mailService.sendVerificationCode(email, code)
     } catch (error) {
       console.error('邮件发送失败:', error)
-      throw new Error('验证码发送失败，请稍后重试')
+      throw new Error(`验证码发送失败: ${error.message}`)
     }
 
     return { message: '验证码已发送' }
