@@ -85,7 +85,7 @@ StoryCanvas-AI/
 #### 上传模块
 - [x] POST /api/upload/token - 获取七牛云上传Token
 
-### 前端页面 (完成度: ~60%)
+### 前端页面 (完成度: ~90%)
 
 #### 认证页面
 - [x] 登录页面 (/auth/login)
@@ -94,9 +94,9 @@ StoryCanvas-AI/
 
 #### 主要页面
 - [x] 首页 (/) - 产品展示
-- [ ] 故事创作页 (/create) - 参数输入表单
-- [ ] 绘本预览页 (/preview/:id) - 翻页预览
-- [ ] 我的书架 (/bookshelf) - 作品管理
+- [x] 故事创作页 (/create) - 参数输入表单
+- [x] 绘本预览页 (/preview/:id) - 翻页预览
+- [x] 我的书架 (/bookshelf) - 作品管理
 - [ ] 个人中心 (/profile) - 用户信息
 
 #### 响应式适配
@@ -111,9 +111,9 @@ StoryCanvas-AI/
 
 ### 高优先级
 1. **前端页面开发**
-   - [ ] 故事创作页 (/create)
-   - [ ] 绘本预览页 (/preview/:id)
-   - [ ] 我的书架 (/bookshelf)
+   - [x] 故事创作页 (/create)
+   - [x] 绘本预览页 (/preview/:id)
+   - [x] 我的书架 (/bookshelf)
    - [ ] 个人中心 (/profile)
 
 2. **AI集成测试**

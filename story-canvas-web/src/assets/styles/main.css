@@ -2,6 +2,32 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  * {
+    @apply focus:outline-none;
+  }
+
+  input:focus,
+  textarea:focus,
+  select:focus {
+    @apply outline-none ring-0 border-2 border-transparent focus:border-primary;
+  }
+
+  ::selection {
+    @apply bg-primary/20 text-on-surface;
+  }
+
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:focus,
+  textarea:-webkit-autofill,
+  textarea:-webkit-autofill:hover,
+  textarea:-webkit-autofill:focus {
+    -webkit-box-shadow: 0 0 0 1000px white inset !important;
+    -webkit-text-fill-color: inherit !important;
+  }
+}
+
 @layer components {
   .btn-primary {
     @apply bg-primary text-white px-4 py-2 rounded-lg hover:opacity-90 transition-opacity;
