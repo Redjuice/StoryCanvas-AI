@@ -469,7 +469,7 @@ const handleGenerate = async () => {
     isGenerating.value = false
     generationProgress.value = 0
     console.error('创建故事失败:', error)
-    toastStore.addToast({ type: 'error', message: '创建故事失败，请重试' })
+    toastStore.error('创建故事失败，请重试')
   }
 }
 

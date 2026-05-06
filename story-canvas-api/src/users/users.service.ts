@@ -14,6 +14,7 @@ export class UsersService {
         email: true,
         nickname: true,
         avatar: true,
+        bio: true,
         createdAt: true,
       },
     })
@@ -26,14 +27,22 @@ export class UsersService {
   }
 
   async update(userId: string, updateUserDto: UpdateUserDto) {
+    const { nickname, avatar, bio } = updateUserDto
+    
+    const data: any = {}
+    if (nickname !== undefined) data.nickname = nickname
+    if (avatar !== undefined) data.avatar = avatar
+    if (bio !== undefined) data.bio = bio
+
     return this.prisma.user.update({
       where: { id: userId },
-      data: updateUserDto,
+      data,
       select: {
         id: true,
         email: true,
         nickname: true,
         avatar: true,
+        bio: true,
         createdAt: true,
       },
     })

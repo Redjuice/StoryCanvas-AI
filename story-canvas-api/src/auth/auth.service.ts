@@ -1,4 +1,4 @@
-import { Injectable, UnauthorizedException, ConflictException, NotFoundException } from '@nestjs/common'
+import { Injectable, UnauthorizedException, ConflictException, NotFoundException, BadRequestException } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
 import * as bcrypt from 'bcryptjs'
 import { PrismaService } from '../prisma/prisma.service'
@@ -7,6 +7,7 @@ import { RegisterDto } from './dto/register.dto'
 import { LoginDto } from './dto/login.dto'
 import { SendResetCodeDto } from './dto/send-reset-code.dto'
 import { ResetPasswordDto } from './dto/reset-password.dto'
+import { ChangePasswordDto } from './dto/change-password.dto'
 
 @Injectable()
 export class AuthService {
@@ -130,5 +131,36 @@ export class AuthService {
     this.resetCodes.delete(email)
 
     return { message: '密码重置成功' }
+  }
+
+  async changePassword(userId: string, dto: ChangePasswordDto) {
+    const { currentPassword, newPassword } = dto
+
+    const user = await this.prisma.user.findUnique({
+      where: { id: userId },
+    })
+
+    if (!user) {
+      throw new NotFoundException('用户不存在')
+    }
+
+    const isPasswordValid = await bcrypt.compare(currentPassword, user.password)
+
+    if (!isPasswordValid) {
+      throw new BadRequestException('当前密码错误')
+    }
+
+    if (currentPassword === newPassword) {
+      throw new BadRequestException('新密码不能与当前密码相同')
+    }
+
+    const hashedPassword = await bcrypt.hash(newPassword, 10)
+
+    await this.prisma.user.update({
+      where: { id: userId },
+      data: { password: hashedPassword },
+    })
+
+    return { message: '密码修改成功' }
   }
 }

@@ -426,19 +426,19 @@ const handleSave = async () => {
     userInfo.value.nickname = editForm.nickname
     userInfo.value.bio = editForm.bio
     isEditing.value = false
-    toastStore.addToast({ type: 'success', message: '保存成功' })
+    toastStore.success('保存成功')
   } catch (error) {
-    toastStore.addToast({ type: 'error', message: getErrorMessage(error) })
+    toastStore.error(getErrorMessage(error))
   }
 }
 
 const handleChangePassword = async () => {
   if (passwordForm.newPassword !== passwordForm.confirmPassword) {
-    toastStore.addToast({ type: 'warning', message: '两次输入的密码不一致' })
+    toastStore.warning('两次输入的密码不一致')
     return
   }
   if (passwordForm.newPassword.length < 6) {
-    toastStore.addToast({ type: 'warning', message: '密码长度至少6位' })
+    toastStore.warning('密码长度至少6位')
     return
   }
   try {
@@ -450,9 +450,9 @@ const handleChangePassword = async () => {
     passwordForm.currentPassword = ''
     passwordForm.newPassword = ''
     passwordForm.confirmPassword = ''
-    toastStore.addToast({ type: 'success', message: '密码修改成功' })
+    toastStore.success('密码修改成功')
   } catch (error) {
-    toastStore.addToast({ type: 'error', message: getErrorMessage(error) })
+    toastStore.error(getErrorMessage(error))
   }
 }
 
