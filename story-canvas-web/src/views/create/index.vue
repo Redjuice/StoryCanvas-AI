@@ -373,8 +373,10 @@ import WebFooter from '@/components/WebFooter.vue'
 import MobileHeader from '@/components/MobileHeader.vue'
 import MobileBottomNav from '@/components/MobileBottomNav.vue'
 import { createStory } from '@/api/story'
+import { useToastStore } from '@/stores/toast'
 
 const router = useRouter()
+const toastStore = useToastStore()
 
 const isMobile = ref(false)
 const isGenerating = ref(false)
@@ -467,7 +469,7 @@ const handleGenerate = async () => {
     isGenerating.value = false
     generationProgress.value = 0
     console.error('创建故事失败:', error)
-    alert('创建故事失败，请重试')
+    toastStore.addToast({ type: 'error', message: '创建故事失败，请重试' })
   }
 }
 
