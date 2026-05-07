@@ -4,7 +4,21 @@
       <h1 class="text-xl font-bold tracking-tight text-primary">StoryCanvas AI</h1>
     </div>
     <router-link to="/profile" class="w-10 h-10 rounded-full bg-surface-variant overflow-hidden hover:ring-2 hover:ring-primary transition-all">
-      <img class="w-full h-full object-cover" src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100&h=100&fit=crop" alt="用户头像"/>
+      <img
+        v-if="userInfo?.avatar"
+        :src="userInfo.avatar"
+        class="w-full h-full object-cover"
+        alt="用户头像"
+      />
+      <span v-else class="w-full h-full flex items-center justify-center material-symbols-outlined text-gray-400">person</span>
     </router-link>
   </header>
 </template>
+
+<script setup>
+import { computed } from 'vue'
+import { useUserStore } from '@/stores/user'
+
+const userStore = useUserStore()
+const userInfo = computed(() => userStore.userInfo)
+</script>

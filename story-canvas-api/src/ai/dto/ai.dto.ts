@@ -29,8 +29,8 @@ export class GenerateImageDto {
 
 export class TestProviderDto {
   @IsString()
-  @IsEnum(['openai', 'anthropic', 'glm'])
-  provider: 'openai' | 'anthropic' | 'glm'
+  @IsEnum(['minimax', 'kimi', 'qwen', 'grsai'])
+  provider: 'minimax' | 'kimi' | 'qwen' | 'grsai'
 
   @IsString()
   prompt: string

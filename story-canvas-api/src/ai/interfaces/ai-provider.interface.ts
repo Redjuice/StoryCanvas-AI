@@ -76,7 +76,7 @@ export interface ImageGenerationResult {
   }
 }
 
-export type ProviderType = 'openai' | 'anthropic' | 'glm' | 'custom'
+export type ProviderType = 'minimax' | 'kimi' | 'qwen' | 'grsai' | 'custom'
 
 export interface ProviderConfig {
   apiKey: string

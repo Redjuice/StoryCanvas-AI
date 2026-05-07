@@ -1,8 +1,9 @@
 import { Injectable, Logger } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
-import { OpenAIProvider } from './providers/openai.provider'
-import { ClaudeProvider } from './providers/claude.provider'
-import { GLMProvider } from './providers/glm.provider'
+import { MiniMaxProvider } from './providers/minimax.provider'
+import { KimiProvider } from './providers/kimi.provider'
+import { QwenProvider } from './providers/qwen.provider'
+import { GRSAIProvider } from './providers/grsai.provider'
 import { AICacheService } from './services/ai-cache.service'
 import {
   AIProvider,
@@ -21,13 +22,14 @@ export class AIService {
 
   constructor(
     private readonly configService: ConfigService,
-    private readonly openAIProvider: OpenAIProvider,
-    private readonly claudeProvider: ClaudeProvider,
-    private readonly glmProvider: GLMProvider,
+    private readonly minimaxProvider: MiniMaxProvider,
+    private readonly kimiProvider: KimiProvider,
+    private readonly qwenProvider: QwenProvider,
+    private readonly grsaiProvider: GRSAIProvider,
     private readonly cacheService: AICacheService,
   ) {
-    const textProviderType = (this.configService.get('AI_TEXT_PROVIDER') || 'openai') as ProviderType
-    const imageProviderType = (this.configService.get('AI_IMAGE_PROVIDER') || 'openai') as ProviderType
+    const textProviderType = this.getValidatedTextProvider()
+    const imageProviderType = this.getValidatedImageProvider()
 
     this.textProvider = this.getProvider(textProviderType)
     this.imageProvider = this.getProvider(imageProviderType)
@@ -36,21 +38,86 @@ export class AIService {
     this.logger.log(`图像生成 provider: ${this.imageProvider.name}`)
   }
 
+  private getValidatedTextProvider(): ProviderType {
+    const configuredProvider = this.configService.get<ProviderType>('AI_TEXT_PROVIDER')
+    
+    // 如果配置了有效的提供商，验证其API Key是否存在
+    if (configuredProvider) {
+      if (this.isProviderConfigured(configuredProvider)) {
+        return configuredProvider
+      }
+      this.logger.warn(`配置的文本提供商 ${configuredProvider} 未正确配置API Key，将使用其他可用提供商`)
+    }
+    
+    // 按优先级选择第一个可用的提供商
+    const availableProviders: ProviderType[] = ['minimax', 'kimi', 'grsai']
+    for (const provider of availableProviders) {
+      if (this.isProviderConfigured(provider)) {
+        this.logger.log(`使用默认文本提供商: ${provider}`)
+        return provider
+      }
+    }
+    
+    this.logger.error('没有可用的文本生成提供商，请至少配置一个AI提供商的API Key')
+    throw new Error('AI提供商配置错误：没有可用的文本生成提供商')
+  }
+
+  private getValidatedImageProvider(): ProviderType {
+    const configuredProvider = this.configService.get<ProviderType>('AI_IMAGE_PROVIDER')
+    
+    // 如果配置了有效的提供商，验证其API Key是否存在
+    if (configuredProvider) {
+      if (this.isProviderConfigured(configuredProvider)) {
+        return configuredProvider
+      }
+      this.logger.warn(`配置的图像提供商 ${configuredProvider} 未正确配置API Key，将使用其他可用提供商`)
+    }
+    
+    // 按优先级选择第一个可用的提供商
+    const availableProviders: ProviderType[] = ['qwen', 'grsai']
+    for (const provider of availableProviders) {
+      if (this.isProviderConfigured(provider)) {
+        this.logger.log(`使用默认图像提供商: ${provider}`)
+        return provider
+      }
+    }
+    
+    this.logger.error('没有可用的图像生成提供商，请至少配置一个AI提供商的API Key')
+    throw new Error('AI提供商配置错误：没有可用的图像生成提供商')
+  }
+
+  private isProviderConfigured(type: ProviderType): boolean {
+    switch (type) {
+      case 'minimax':
+        return !!this.configService.get('MINIMAX_API_KEY')
+      case 'kimi':
+        return !!this.configService.get('KIMI_API_KEY')
+      case 'qwen':
+        return !!this.configService.get('QWEN_API_KEY')
+      case 'grsai':
+        return !!this.configService.get('GRSAI_API_KEY')
+      default:
+        return false
+    }
+  }
+
   getProviderForTest(type: ProviderType): AIProvider {
     return this.getProvider(type)
   }
 
   private getProvider(type: ProviderType): AIProvider {
     switch (type) {
-      case 'openai':
-        return this.openAIProvider
-      case 'anthropic':
-        return this.claudeProvider
-      case 'glm':
-        return this.glmProvider
+      case 'minimax':
+        return this.minimaxProvider
+      case 'kimi':
+        return this.kimiProvider
+      case 'qwen':
+        return this.qwenProvider
+      case 'grsai':
+        return this.grsaiProvider
       default:
-        this.logger.warn(`未知的 provider 类型: ${type}，使用默认 OpenAI`)
-        return this.openAIProvider
+        this.logger.warn(`未知的 provider 类型: ${type}，使用默认 MiniMax`)
+        return this.minimaxProvider
     }
   }
 
@@ -99,15 +166,17 @@ export class AIService {
 
   async healthCheck(): Promise<Record<ProviderType, boolean>> {
     const results: Record<ProviderType, boolean> = {
-      openai: false,
-      anthropic: false,
-      glm: false,
+      minimax: false,
+      kimi: false,
+      qwen: false,
+      grsai: false,
       custom: false,
     }
 
-    results.openai = await this.openAIProvider.healthCheck()
-    results.anthropic = await this.claudeProvider.healthCheck()
-    results.glm = await this.glmProvider.healthCheck()
+    results.minimax = await this.minimaxProvider.healthCheck()
+    results.kimi = await this.kimiProvider.healthCheck()
+    results.qwen = await this.qwenProvider.healthCheck()
+    results.grsai = await this.grsaiProvider.healthCheck()
 
     return results
   }

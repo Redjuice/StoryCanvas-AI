@@ -4,9 +4,10 @@ import { ConfigModule } from '@nestjs/config'
 import { AIService } from './ai.service'
 import { AIController } from './ai.controller'
 import { AICacheService } from './services/ai-cache.service'
-import { OpenAIProvider } from './providers/openai.provider'
-import { ClaudeProvider } from './providers/claude.provider'
-import { GLMProvider } from './providers/glm.provider'
+import { MiniMaxProvider } from './providers/minimax.provider'
+import { KimiProvider } from './providers/kimi.provider'
+import { QwenProvider } from './providers/qwen.provider'
+import { GRSAIProvider } from './providers/grsai.provider'
 
 @Module({
   imports: [HttpModule, ConfigModule],
@@ -14,9 +15,10 @@ import { GLMProvider } from './providers/glm.provider'
   providers: [
     AIService,
     AICacheService,
-    OpenAIProvider,
-    ClaudeProvider,
-    GLMProvider,
+    MiniMaxProvider,
+    KimiProvider,
+    QwenProvider,
+    GRSAIProvider,
   ],
   exports: [AIService],
 })

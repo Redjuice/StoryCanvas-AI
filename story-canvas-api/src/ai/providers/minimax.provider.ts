@@ -12,10 +12,10 @@ import {
 } from '../interfaces/ai-provider.interface'
 
 @Injectable()
-export class GLMProvider implements AIProvider {
-  readonly name = 'Zhipu AI (GLM)'
-  readonly providerType: ProviderType = 'glm'
-  private readonly logger = new Logger(GLMProvider.name)
+export class MiniMaxProvider implements AIProvider {
+  readonly name = 'MiniMax'
+  readonly providerType: ProviderType = 'minimax'
+  private readonly logger = new Logger(MiniMaxProvider.name)
   private readonly apiKey: string
   private readonly baseUrl: string
   private readonly defaultModel: string
@@ -24,25 +24,25 @@ export class GLMProvider implements AIProvider {
     private readonly configService: ConfigService,
     private readonly httpService: HttpService,
   ) {
-    this.apiKey = this.configService.get('GLM_API_KEY') || ''
-    this.baseUrl = this.configService.get('GLM_BASE_URL') || 'https://open.bigmodel.cn/api/paas/v4'
-    this.defaultModel = this.configService.get('GLM_MODEL') || 'glm-4'
+    this.apiKey = this.configService.get('MINIMAX_API_KEY') || ''
+    this.baseUrl = this.configService.get('MINIMAX_BASE_URL') || 'https://api.minimax.chat/v1'
+    this.defaultModel = this.configService.get('MINIMAX_MODEL') || 'abab6.5s-chat'
   }
 
   async generateText(prompt: string, options?: GenerateOptions): Promise<GenerationResult> {
     const model = options?.model || this.defaultModel
-    this.logger.log(`GLM 生成文本, 模型: ${model}`)
+    this.logger.log(`MiniMax 生成文本, 模型: ${model}`)
 
     try {
       const response = await firstValueFrom(
         this.httpService.post(
-          `${this.baseUrl}/chat/completions`,
+          `${this.baseUrl}/text/chatcompletion_v2`,
           {
             model,
             messages: [{ role: 'user', content: prompt }],
             temperature: options?.temperature ?? 0.7,
             max_tokens: options?.maxTokens ?? 2048,
-            top_p: options?.topP,
+            top_p: options?.topP ?? 0.95,
           },
           {
             headers: {
@@ -54,18 +54,19 @@ export class GLMProvider implements AIProvider {
         ),
       )
 
+      const choice = response.data.choices?.[0]
       return {
-        text: response.data.choices[0]?.message?.content || '',
+        text: choice?.message?.content || choice?.text || '',
         usage: {
           promptTokens: response.data.usage?.prompt_tokens || 0,
           completionTokens: response.data.usage?.completion_tokens || 0,
           totalTokens: response.data.usage?.total_tokens || 0,
         },
-        finishReason: response.data.choices[0]?.finish_reason,
+        finishReason: choice?.finish_reason,
       }
     } catch (error) {
-      this.logger.error(`GLM 文本生成失败: ${error.message}`, error.stack)
-      throw new Error(`GLM 文本生成失败: ${error.message}`)
+      this.logger.error(`MiniMax 文本生成失败: ${error.message}`, error.stack)
+      throw new Error(`MiniMax 文本生成失败: ${error.message}`)
     }
   }
 
@@ -85,49 +86,22 @@ export class GLMProvider implements AIProvider {
     prompt: string,
     options?: ImageGenerateOptions,
   ): Promise<ImageGenerationResult> {
-    const model = options?.model || 'cogview-3'
-    this.logger.log(`GLM 生成图像, 模型: ${model}`)
-
-    try {
-      const response = await firstValueFrom(
-        this.httpService.post(
-          `${this.baseUrl}/images/generations`,
-          {
-            model,
-            prompt,
-            n: options?.n || 1,
-            size: options?.size || '1024x1024',
-          },
-          {
-            headers: {
-              Authorization: `Bearer ${this.apiKey}`,
-              'Content-Type': 'application/json',
-            },
-            timeout: 120000,
-          },
-        ),
-      )
-
-      return {
-        url: response.data.data[0]?.url || '',
-        revisedPrompt: prompt,
-        usage: { n: response.data.data.length },
-      }
-    } catch (error) {
-      this.logger.error(`GLM 图像生成失败: ${error.message}`, error.stack)
-      throw new Error(`GLM 图像生成失败: ${error.message}`)
+    this.logger.warn('MiniMax 暂不支持图像生成，返回模拟结果')
+    return {
+      url: `https://picsum.photos/seed/${encodeURIComponent(prompt)}/1024/1024`,
+      revisedPrompt: prompt,
+      usage: { n: 1 },
     }
   }
 
   async computeEmbedding(text: string): Promise<number[]> {
-    this.logger.log(`GLM 计算 Embedding, 文本长度: ${text.length}`)
-
+    this.logger.log(`MiniMax 计算 Embedding, 文本长度: ${text.length}`)
     try {
       const response = await firstValueFrom(
         this.httpService.post(
           `${this.baseUrl}/embeddings`,
           {
-            model: 'embedding-2',
+            model: 'embo-01',
             input: text,
           },
           {
@@ -139,11 +113,10 @@ export class GLMProvider implements AIProvider {
           },
         ),
       )
-
-      return response.data.data[0]?.embedding || []
+      return response.data.data?.[0]?.embedding || []
     } catch (error) {
-      this.logger.error(`GLM Embedding 计算失败: ${error.message}`, error.stack)
-      throw new Error(`GLM Embedding 计算失败: ${error.message}`)
+      this.logger.error(`MiniMax Embedding 计算失败: ${error.message}`, error.stack)
+      throw new Error(`MiniMax Embedding 计算失败: ${error.message}`)
     }
   }
 
@@ -151,7 +124,7 @@ export class GLMProvider implements AIProvider {
     try {
       await firstValueFrom(
         this.httpService.post(
-          `${this.baseUrl}/chat/completions`,
+          `${this.baseUrl}/text/chatcompletion_v2`,
           {
             model: this.defaultModel,
             messages: [{ role: 'user', content: 'ping' }],

@@ -243,7 +243,7 @@
                   <img class="w-full h-full object-cover" src="https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?w=300&h=300&fit=crop" alt="Watercolor Style"/>
                 </div>
                 <div class="p-3 text-center">
-                  <p class="font-bold text-on-surface text-sm">Watercolor Dream</p>
+                  <p class="font-bold text-on-surface text-sm">梦幻水彩</p>
                 </div>
               </div>
             </div>
@@ -253,7 +253,7 @@
                   <img class="w-full h-full object-cover" src="https://images.unsplash.com/photo-1560421683-6856ea585c78?w=300&h=300&fit=crop" alt="Cartoon Pop Style"/>
                 </div>
                 <div class="p-3 text-center">
-                  <p class="font-bold text-on-surface text-sm">Cartoon Pop</p>
+                  <p class="font-bold text-on-surface text-sm">简约漫画</p>
                 </div>
               </div>
             </div>
@@ -263,7 +263,7 @@
                   <img class="w-full h-full object-cover" src="https://images.unsplash.com/photo-1578301978693-85fa9c0320b9?w=300&h=300&fit=crop" alt="Classic Sketch Style"/>
                 </div>
                 <div class="p-3 text-center">
-                  <p class="font-bold text-on-surface text-sm">Classic Sketch</p>
+                  <p class="font-bold text-on-surface text-sm">古典油画</p>
                 </div>
               </div>
             </div>

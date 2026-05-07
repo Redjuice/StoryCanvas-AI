@@ -18,7 +18,7 @@
           <div class="lg:col-span-4 space-y-6">
             <div class="glass-panel p-8 rounded-xl border border-outline-variant/15 text-center">
               <div class="relative inline-block mb-6">
-                <div class="w-24 h-24 rounded-full bg-primary-container flex items-center justify-center mx-auto overflow-hidden">
+                <div class="w-24 h-24 rounded-full bg-primary-container flex items-center justify-center mx-auto overflow-hidden relative">
                   <img 
                     v-if="userInfo.avatar" 
                     :src="userInfo.avatar" 
@@ -26,10 +26,21 @@
                     alt="avatar"
                   />
                   <span v-else class="material-symbols-outlined text-5xl text-primary">person</span>
+                  <!-- 上传中遮罩 -->
+                  <div v-if="isUploading" class="absolute inset-0 bg-black/50 flex items-center justify-center">
+                    <span class="material-symbols-outlined text-white animate-spin">sync</span>
+                  </div>
                 </div>
-                <button class="absolute bottom-0 right-0 w-8 h-8 bg-primary text-white rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition-transform">
+                <label class="absolute bottom-0 right-0 w-8 h-8 bg-primary text-white rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition-transform cursor-pointer">
                   <span class="material-symbols-outlined text-sm">photo_camera</span>
-                </button>
+                  <input 
+                    type="file" 
+                    accept="image/*" 
+                    class="hidden" 
+                    @change="handleAvatarUpload"
+                    :disabled="isUploading"
+                  />
+                </label>
               </div>
               <h2 class="text-2xl font-bold text-on-surface mb-2">{{ userInfo.nickname || '用户' }}</h2>
               <p class="text-on-surface-variant text-sm mb-6">{{ userInfo.email }}</p>
@@ -180,7 +191,7 @@
         <!-- User Info Card -->
         <div class="glass-panel p-6 rounded-2xl border border-outline-variant/15 text-center mb-6">
           <div class="relative inline-block mb-4">
-            <div class="w-20 h-20 rounded-full bg-primary-container flex items-center justify-center mx-auto overflow-hidden">
+            <div class="w-20 h-20 rounded-full bg-primary-container flex items-center justify-center mx-auto overflow-hidden relative">
               <img 
                 v-if="userInfo.avatar" 
                 :src="userInfo.avatar" 
@@ -188,10 +199,21 @@
                 alt="avatar"
               />
               <span v-else class="material-symbols-outlined text-4xl text-primary">person</span>
+              <!-- 上传中遮罩 -->
+              <div v-if="isUploading" class="absolute inset-0 bg-black/50 flex items-center justify-center">
+                <span class="material-symbols-outlined text-white animate-spin text-sm">sync</span>
+              </div>
             </div>
-            <button class="absolute bottom-0 right-0 w-7 h-7 bg-primary text-white rounded-full flex items-center justify-center shadow-lg">
+            <label class="absolute bottom-0 right-0 w-7 h-7 bg-primary text-white rounded-full flex items-center justify-center shadow-lg cursor-pointer">
               <span class="material-symbols-outlined text-xs">photo_camera</span>
-            </button>
+              <input 
+                type="file" 
+                accept="image/*" 
+                class="hidden" 
+                @change="handleAvatarUpload"
+                :disabled="isUploading"
+              />
+            </label>
           </div>
           <h2 class="text-xl font-bold text-on-surface mb-1">{{ userInfo.nickname || '用户' }}</h2>
           <p class="text-on-surface-variant text-sm mb-4">{{ userInfo.email }}</p>
@@ -358,6 +380,7 @@ import MobileBottomNav from '@/components/MobileBottomNav.vue'
 import { useUserStore } from '@/stores/user'
 import { useToastStore } from '@/stores/toast'
 import { getUserInfo, updateUserInfo, changePassword } from '@/api/user'
+import { uploadApi } from '@/api/upload'
 import { getErrorMessage } from '@/api/index'
 
 const router = useRouter()
@@ -367,6 +390,7 @@ const toastStore = useToastStore()
 const isMobile = ref(false)
 const isEditing = ref(false)
 const showPasswordModal = ref(false)
+const isUploading = ref(false)
 
 const userInfo = ref({
   nickname: '',
@@ -460,6 +484,47 @@ const handleLogout = () => {
   if (confirm('确定要退出登录吗？')) {
     userStore.logout()
     router.push('/auth/login')
+  }
+}
+
+// 处理头像上传
+const handleAvatarUpload = async (event) => {
+  const file = event.target.files?.[0]
+  if (!file) return
+
+  // 验证文件类型
+  if (!file.type.startsWith('image/')) {
+    toastStore.warning('请选择图片文件')
+    return
+  }
+
+  // 验证文件大小 (最大 5MB)
+  if (file.size > 5 * 1024 * 1024) {
+    toastStore.warning('图片大小不能超过 5MB')
+    return
+  }
+
+  isUploading.value = true
+  try {
+    // 重命名文件为头像专用名称
+    const avatarFile = new File([file], `avatar-${Date.now()}.${file.name.split('.').pop()}`, { type: file.type })
+    const result = await uploadApi.uploadToQiniu(avatarFile)
+
+    // 更新用户头像
+    await updateUserInfo({
+      avatar: result.url,
+    })
+
+    userInfo.value.avatar = result.url
+    userStore.setUserInfo({ ...userStore.userInfo, avatar: result.url })
+    toastStore.success('头像上传成功')
+  } catch (error) {
+    console.error('上传失败:', error)
+    toastStore.error(getErrorMessage(error) || '头像上传失败')
+  } finally {
+    isUploading.value = false
+    // 清空 input 值，允许重复选择同一文件
+    event.target.value = ''
   }
 }
 

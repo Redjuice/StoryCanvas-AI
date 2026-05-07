@@ -1,5 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
+import * as qiniu from 'qiniu'
 
 @Injectable()
 export class UploadService {
@@ -22,21 +23,16 @@ export class UploadService {
       }
     }
 
-    const key = `stories/${Date.now()}-${fileName}`
-    const mac = {
-      accessKey,
-      secretKey: Buffer.from(secretKey),
-    }
+    const key = `avatars/${Date.now()}-${fileName}`
 
-    const policy = {
+    // 使用七牛云 SDK 生成上传凭证
+    const mac = new qiniu.auth.digest.Mac(accessKey, secretKey)
+    const options = {
       scope: `${bucket}:${key}`,
       expires: 3600,
-      returnBody: '{"key":"$(key)","hash":"$(etag)","fsize":"$(fsize)","bucket":"$(bucket)"}',
     }
-
-    const encodedPolicy = Buffer.from(JSON.stringify(policy)).toString('base64')
-    const signature = this.hmacSha1(encodedPolicy, secretKey)
-    const token = `${accessKey}:${this.base64UrlEncode(encodedPolicy)}:${signature}`
+    const putPolicy = new qiniu.rs.PutPolicy(options)
+    const token = putPolicy.uploadToken(mac)
 
     return { token, key, domain }
   }
@@ -46,17 +42,6 @@ export class UploadService {
     if (!domain) {
       return `https://example.com/${key}`
     }
-    return `https://${domain}/${key}`
-  }
-
-  private hmacSha1(encodedPolicy: string, secretKey: string): string {
-    const crypto = require('crypto')
-    const hmac = crypto.createHmac('sha1', Buffer.from(secretKey))
-    hmac.update(encodedPolicy)
-    return hmac.digest('base64')
-  }
-
-  private base64UrlEncode(str: string): string {
-    return Buffer.from(str).toString('base64').replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '')
+    return `http://${domain}/${key}`
   }
 }
