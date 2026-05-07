@@ -64,29 +64,35 @@
               >
                 <div class="relative mb-6 rounded-lg overflow-hidden aspect-[4/3]">
                   <img 
-                    :alt="page.content" 
+                    :alt="page.text" 
                     class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" 
-                    :src="page.imageUrl || 'https://images.unsplash.com/photo-1512820790803-83ca734da794?w=600&h=450&fit=crop'"
+                    :src="page.image || 'https://images.unsplash.com/photo-1512820790803-83ca734da794?w=600&h=450&fit=crop'"
                   />
                   <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4">
                     <button 
                       @click="regenerateImage(index)"
-                      class="bg-surface-container-lowest text-primary px-4 py-2 rounded-full text-xs font-bold flex items-center gap-2"
+                      :disabled="regeneratingIndex === index"
+                      class="bg-surface-container-lowest text-primary px-4 py-2 rounded-full text-xs font-bold flex items-center gap-2 disabled:opacity-50"
                     >
-                      <span class="material-symbols-outlined text-sm">refresh</span>
-                      重新生成图片
+                      <span class="material-symbols-outlined text-sm" :class="{ 'animate-spin': regeneratingIndex === index }">refresh</span>
+                      {{ regeneratingIndex === index ? '生成中...' : '重新生成图片' }}
                     </button>
                   </div>
                 </div>
                 <div class="space-y-3">
                   <div class="flex justify-between items-center">
                     <span class="text-xs font-bold text-primary uppercase tracking-widest">Page {{ index + 1 }}</span>
-                    <button class="material-symbols-outlined text-on-surface-variant/40 hover:text-primary cursor-pointer transition-colors">
-                      edit_note
+                    <button 
+                      @click="savePageText(index)"
+                      :disabled="savingIndex === index"
+                      class="material-symbols-outlined text-on-surface-variant/40 hover:text-primary cursor-pointer transition-colors disabled:opacity-50"
+                    >
+                      {{ savingIndex === index ? 'sync' : 'edit_note' }}
                     </button>
                   </div>
                   <textarea 
-                    v-model="page.content"
+                    v-model="page.text"
+                    @blur="savePageText(index)"
                     class="w-full bg-surface-container-low border-none rounded-md p-4 text-on-surface-variant text-sm leading-relaxed focus:ring-2 focus:ring-primary/20 h-32 resize-none"
                   ></textarea>
                 </div>
@@ -107,9 +113,13 @@
         <!-- Global Action Bar -->
         <div class="mt-20 flex justify-center pb-12">
           <div class="glass-panel p-2 rounded-full border border-outline-variant/20 shadow-xl flex items-center gap-2">
-            <button class="px-8 py-3 rounded-full hover:bg-surface-container-high transition-colors font-bold text-on-surface-variant flex items-center gap-2">
-              <span class="material-symbols-outlined text-sm">save</span>
-              保存草稿
+            <button 
+              @click="saveStory"
+              :disabled="isSaving"
+              class="px-8 py-3 rounded-full hover:bg-surface-container-high transition-colors font-bold text-on-surface-variant flex items-center gap-2 disabled:opacity-50"
+            >
+              <span class="material-symbols-outlined text-sm" :class="{ 'animate-spin': isSaving }">save</span>
+              {{ isSaving ? '保存中...' : '保存草稿' }}
             </button>
             <div class="w-[1px] h-6 bg-outline-variant/30"></div>
             <button class="bg-primary text-on-primary px-10 py-3 rounded-full font-bold shadow-lg shadow-primary/20 hover:scale-[1.02] transition-transform flex items-center gap-2">
@@ -151,11 +161,15 @@
               <div class="relative aspect-square overflow-hidden">
                 <img 
                   class="w-full h-full object-cover" 
-                  :src="page.imageUrl || 'https://images.unsplash.com/photo-1512820790803-83ca734da794?w=600&h=600&fit=crop'"
-                  :alt="page.content"
+                  :src="page.image || 'https://images.unsplash.com/photo-1512820790803-83ca734da794?w=600&h=600&fit=crop'"
+                  :alt="page.text"
                 />
-                <button class="absolute top-4 right-4 w-10 h-10 flex items-center justify-center bg-surface-container-lowest/90 backdrop-blur rounded-full text-primary shadow-lg hover:scale-110 transition-transform">
-                  <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">edit</span>
+                <button 
+                  @click="regenerateImage(index)"
+                  :disabled="regeneratingIndex === index"
+                  class="absolute top-4 right-4 w-10 h-10 flex items-center justify-center bg-surface-container-lowest/90 backdrop-blur rounded-full text-primary shadow-lg hover:scale-110 transition-transform disabled:opacity-50"
+                >
+                  <span class="material-symbols-outlined" :class="{ 'animate-spin': regeneratingIndex === index }">refresh</span>
                 </button>
               </div>
               <div class="p-6">
@@ -163,11 +177,20 @@
                   <span class="text-xs font-bold tracking-widest text-outline uppercase bg-surface-container px-3 py-1 rounded-full">
                     PAGE {{ String(index + 1).padStart(2, '0') }}
                   </span>
-                  <span class="material-symbols-outlined text-outline-variant">drag_handle</span>
+                  <button 
+                      @click="savePageText(index)"
+                      :disabled="savingIndex === index"
+                      class="material-symbols-outlined text-on-surface-variant/40 hover:text-primary cursor-pointer transition-colors disabled:opacity-50"
+                    >
+                      {{ savingIndex === index ? 'sync' : 'edit_note' }}
+                  </button>
                 </div>
-                <p class="text-on-surface-variant leading-relaxed text-lg font-medium">
-                  {{ page.content }}
-                </p>
+                <textarea
+                  v-model="page.text"
+                  @blur="savePageText(index)"
+                  class="w-full bg-surface-container-low border-none rounded-lg p-4 text-on-surface-variant leading-relaxed text-base focus:ring-2 focus:ring-primary/20 resize-none"
+                  rows="4"
+                ></textarea>
               </div>
             </div>
           </div>
@@ -183,8 +206,12 @@
       <!-- Persistent Action Bar -->
       <div class="fixed bottom-20 left-0 w-full z-40 px-4 py-3 ">
         <div class="max-w-2xl mx-auto flex gap-4">
-          <button class="flex-1 py-4 px-6 bg-surface-container-high text-on-surface font-bold rounded-full hover:bg-surface-variant transition-colors active:scale-95 duration-200">
-            保存草稿
+          <button 
+            @click="saveStory"
+            :disabled="isSaving"
+            class="flex-1 py-4 px-6 bg-surface-container-high text-on-surface font-bold rounded-full hover:bg-surface-variant transition-colors active:scale-95 duration-200 disabled:opacity-50"
+          >
+            {{ isSaving ? '保存中...' : '保存草稿' }}
           </button>
           <button class="flex-[1.5] py-4 px-6 bg-gradient-to-r from-primary to-primary-fixed-dim text-white font-bold rounded-full shadow-[0_8px_24px_rgba(88,71,210,0.3)] hover:opacity-90 transition-opacity active:scale-95 duration-200">
             立即发布
@@ -204,28 +231,22 @@ import WebHeader from '@/components/WebHeader.vue'
 import WebFooter from '@/components/WebFooter.vue'
 import MobileHeader from '@/components/MobileHeader.vue'
 import MobileBottomNav from '@/components/MobileBottomNav.vue'
-import { getStoryDetail } from '@/api/story'
+import { getStoryDetail, updateStory, regeneratePage } from '@/api/story'
+import { useToastStore } from '@/stores/toast'
 
 const route = useRoute()
+const toastStore = useToastStore()
 const isMobile = ref(false)
 
-const storyTitle = ref('勇敢的小狗 Sparky')
-const storyStyle = ref('anime')
+const storyId = ref('')
+const storyTitle = ref('')
+const storyStyle = ref('')
 
-const pages = ref([
-  {
-    content: '很久很久以前，有一只名叫 Sparky 的勇敢小狗。他住在一个洒满阳光的小房子里，每天最喜欢的事情就是盯着窗外的森林。他说："总有一天，我要去森林里冒险！"',
-    imageUrl: ''
-  },
-  {
-    content: '这一天，机会终于来了。Sparky 悄悄溜出门，跑进了色彩斑斓的森林。森林里到处是发光的蝴蝶和高大的橡树。他觉得自己现在是个真正的英雄了！',
-    imageUrl: ''
-  },
-  {
-    content: '在小路旁，他遇到了一只戴着红色小帽子的松鼠。松鼠说："前面有一条湍急的小溪，你敢过去吗？" Sparky 拍拍胸脯，大声回答："没问题，我很勇敢的！"',
-    imageUrl: ''
-  }
-])
+const pages = ref([])
+
+const regeneratingIndex = ref(-1)
+const savingIndex = ref(-1)
+const isSaving = ref(false)
 
 const styleLabels = {
   anime: '童趣动漫',
@@ -240,14 +261,72 @@ const checkScreenSize = () => {
   isMobile.value = window.innerWidth < 768
 }
 
-const regenerateImage = (index) => {
-  console.log('重新生成第', index + 1, '页图片')
+const regenerateImage = async (index) => {
+  if (regeneratingIndex.value !== -1) return
+  
+  regeneratingIndex.value = index
+  try {
+    const res = await regeneratePage(storyId.value, index + 1)
+    if (res.data && res.data.imageUrl) {
+      pages.value[index].image = res.data.imageUrl
+      toastStore.success('图片重新生成成功')
+    }
+  } catch (error) {
+    console.error('重新生成图片失败:', error)
+    toastStore.error('图片生成失败，请重试')
+  } finally {
+    regeneratingIndex.value = -1
+  }
+}
+
+const savePageText = async (index) => {
+  if (savingIndex.value !== -1) return
+  
+  savingIndex.value = index
+  try {
+    await updateStory(storyId.value, {
+      pages: pages.value.map((page, i) => ({
+        pageNumber: i + 1,
+        content: page.text,
+        imageUrl: page.image
+      }))
+    })
+    toastStore.success('页面内容已保存')
+  } catch (error) {
+    console.error('保存页面失败:', error)
+    toastStore.error('保存失败，请重试')
+  } finally {
+    savingIndex.value = -1
+  }
+}
+
+const saveStory = async () => {
+  if (isSaving.value) return
+  
+  isSaving.value = true
+  try {
+    await updateStory(storyId.value, {
+      title: storyTitle.value,
+      pages: pages.value.map((page, index) => ({
+        pageNumber: index + 1,
+        content: page.text,
+        imageUrl: page.image
+      }))
+    })
+    toastStore.success('故事已保存')
+  } catch (error) {
+    console.error('保存故事失败:', error)
+    toastStore.error('保存失败，请重试')
+  } finally {
+    isSaving.value = false
+  }
 }
 
 const loadStory = async () => {
   try {
     const id = route.params.id
     if (id) {
+      storyId.value = id
       const res = await getStoryDetail(id)
       if (res.data) {
         storyTitle.value = res.data.title

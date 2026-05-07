@@ -66,14 +66,14 @@
                 <h2 class="text-xl font-bold text-on-surface">目标年龄段</h2>
               </div>
               <div class="flex flex-wrap gap-4">
-                <button 
-                  v-for="age in ageRanges" 
+                <button
+                  v-for="age in ageGroups"
                   :key="age.value"
-                  @click="formData.ageRange = age.value"
+                  @click="formData.ageGroup = age.value"
                   :class="[
                     'px-6 py-3 rounded-xl font-medium transition-all',
-                    formData.ageRange === age.value 
-                      ? 'bg-primary text-white shadow-lg shadow-primary/30' 
+                    formData.ageGroup === age.value
+                      ? 'bg-primary text-white shadow-lg shadow-primary/30'
                       : 'bg-surface-container-lowest text-on-surface border border-outline-variant/10 hover:border-primary/40'
                   ]"
                 >
@@ -141,7 +141,7 @@
                       <div class="space-y-3">
                         <div class="flex justify-between text-sm font-bold text-on-surface">
                           <span>{{ generatingStatus }}</span>
-                          <span class="text-primary">{{ generationProgress }}%</span>
+                          <span class="text-primary">{{ Math.floor(generationProgress) }}%</span>
                         </div>
                         <div class="w-full bg-surface-container-low rounded-full h-2.5 overflow-hidden">
                           <div class="bg-primary h-full rounded-full transition-all duration-500" :style="{ width: generationProgress + '%' }"></div>
@@ -309,7 +309,7 @@
                 <p class="text-on-surface font-bold text-base">正在生成第一章：{{ formData.theme.slice(0, 10) }}...</p>
               </div>
               <div class="flex flex-col items-end">
-                <span class="text-primary font-black text-xl">{{ generationProgress }}<span class="text-sm font-bold">%</span></span>
+                <span class="text-primary font-black text-xl">{{ Math.floor(generationProgress) }}<span class="text-sm font-bold">%</span></span>
               </div>
             </div>
           </div>
@@ -385,8 +385,9 @@ const generatingStatus = ref('正在构思故事...')
 
 const formData = ref({
   theme: '',
-  ageRange: '3-6',
-  style: 'anime'
+  ageGroup: '3-6',
+  style: 'cartoon',
+  pageCount: 5
 })
 
 const examples = [
@@ -396,18 +397,16 @@ const examples = [
   '会说话的云朵城堡'
 ]
 
-const ageRanges = [
+const ageGroups = [
   { value: '0-3', label: '0-3岁' },
   { value: '3-6', label: '3-6岁' },
-  { value: '6-9', label: '6-9岁' },
-  { value: '6+', label: '6岁以上' }
+  { value: '6-9', label: '6-9岁' }
 ]
 
 const styles = [
-  { value: 'anime', label: '童趣动漫', image: 'https://images.unsplash.com/photo-1612036782180-6f0b6cd846fe?w=400&h=533&fit=crop' },
+  { value: 'cartoon', label: '童趣动漫', image: 'https://images.unsplash.com/photo-1612036782180-6f0b6cd846fe?w=400&h=533&fit=crop' },
   { value: 'watercolor', label: '温润水彩', image: 'https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?w=400&h=533&fit=crop' },
-  { value: 'sketch', label: '复古素描', image: 'https://images.unsplash.com/photo-1578301978693-85fa9c0320b9?w=400&h=533&fit=crop' },
-  { value: '3d', label: '3D 立体', image: 'https://images.unsplash.com/photo-1560421683-6856ea585c78?w=400&h=533&fit=crop' }
+  { value: 'illustration', label: '复古素描', image: 'https://images.unsplash.com/photo-1578301978693-85fa9c0320b9?w=400&h=533&fit=crop' }
 ]
 
 const canGenerate = computed(() => {
@@ -453,8 +452,9 @@ const handleGenerate = async () => {
   try {
     const res = await createStory({
       theme: formData.value.theme,
-      ageRange: formData.value.ageRange,
-      style: formData.value.style
+      ageGroup: formData.value.ageGroup,
+      style: formData.value.style,
+      pageCount: formData.value.pageCount
     })
 
     clearInterval(progressInterval)

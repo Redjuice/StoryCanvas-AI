@@ -1,13 +1,17 @@
 import { NestFactory } from '@nestjs/core'
-import { ValidationPipe } from '@nestjs/common'
+import { ValidationPipe, Logger } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger'
 import { AppModule } from './app.module'
 import { HttpExceptionFilter } from './common/filters/http-exception.filter'
 import { TransformInterceptor } from './common/interceptors/transform.interceptor'
+import { FileLoggerService } from './common/services/file-logger.service'
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule)
+  const fileLogger = new FileLoggerService()
+  const app = await NestFactory.create(AppModule, {
+    logger: fileLogger,
+  })
 
   app.useGlobalPipes(
     new ValidationPipe({

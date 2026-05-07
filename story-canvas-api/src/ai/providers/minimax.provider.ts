@@ -86,11 +86,46 @@ export class MiniMaxProvider implements AIProvider {
     prompt: string,
     options?: ImageGenerateOptions,
   ): Promise<ImageGenerationResult> {
-    this.logger.warn('MiniMax 暂不支持图像生成，返回模拟结果')
-    return {
-      url: `https://picsum.photos/seed/${encodeURIComponent(prompt)}/1024/1024`,
-      revisedPrompt: prompt,
-      usage: { n: 1 },
+    this.logger.log(`MiniMax 生成图像, 提示词: ${prompt.substring(0, 50)}...`)
+
+    try {
+      const response = await firstValueFrom(
+        this.httpService.post(
+          `${this.baseUrl}/image/generation`,
+          {
+            model: 'image-01',
+            prompt,
+            aspect_ratio: '1:1',
+            response_format: 'url',
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${this.apiKey}`,
+              'Content-Type': 'application/json',
+            },
+            timeout: 120000,
+          },
+        ),
+      )
+
+      const imageUrl = response.data.data?.image_url || response.data.image_url
+      if (!imageUrl) {
+        throw new Error('MiniMax 未返回图像 URL')
+      }
+
+      return {
+        url: imageUrl,
+        revisedPrompt: prompt,
+        usage: { n: 1 },
+      }
+    } catch (error) {
+      this.logger.error(`MiniMax 图像生成失败: ${error.message}`, error.stack)
+      this.logger.warn('返回模拟图像结果')
+      return {
+        url: `https://picsum.photos/seed/${encodeURIComponent(prompt)}/1024/1024`,
+        revisedPrompt: prompt,
+        usage: { n: 1 },
+      }
     }
   }
 

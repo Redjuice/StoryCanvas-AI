@@ -1,5 +1,16 @@
 <template>
   <div class="min-h-screen bg-surface">
+    <!-- 确认删除弹窗 -->
+    <ConfirmDialog
+      v-model="showDeleteDialog"
+      title="删除故事"
+      message="确定要删除这个故事吗？删除后将无法恢复。"
+      icon="delete_forever"
+      confirm-text="删除"
+      cancel-text="保留"
+      @confirm="confirmDelete"
+    />
+
     <!-- Web端布局 (>= 768px) -->
     <template v-if="!isMobile">
       <WebHeader />
@@ -42,16 +53,16 @@
                 <img 
                   :alt="book.title" 
                   class="absolute inset-0 w-full h-full object-cover"
-                  :src="book.coverImage || 'https://images.unsplash.com/photo-1512820790803-83ca734da794?w=400&h=533&fit=crop'"
+                  :src="book.cover || 'https://images.unsplash.com/photo-1512820790803-83ca734da794?w=400&h=533&fit=crop'"
                 />
                 <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent"></div>
                 
-                <!-- Kebab Menu -->
-                <button 
-                  @click.prevent="showBookMenu(book.id)"
-                  class="absolute top-2 right-2 w-8 h-8 rounded-full bg-black/20 backdrop-blur-md flex items-center justify-center text-white active:bg-black/40"
+                <!-- Delete Button -->
+                <button
+                  @click.prevent="handleDeleteClick(book.id)"
+                  class="absolute top-2 right-2 w-8 h-8 rounded-full bg-black/20 backdrop-blur-md flex items-center justify-center text-white active:bg-black/40 hover:bg-error/60 transition-colors"
                 >
-                  <span class="material-symbols-outlined text-lg">more_vert</span>
+                  <span class="material-symbols-outlined text-lg">delete</span>
                 </button>
                 
                 <!-- Status Tag -->
@@ -137,16 +148,16 @@
               <img 
                 :alt="book.title" 
                 class="absolute inset-0 w-full h-full object-cover"
-                :src="book.coverImage || 'https://images.unsplash.com/photo-1512820790803-83ca734da794?w=400&h=533&fit=crop'"
+                :src="book.cover || 'https://images.unsplash.com/photo-1512820790803-83ca734da794?w=400&h=533&fit=crop'"
               />
               <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent"></div>
               
-              <!-- Kebab Menu -->
-              <button 
-                @click.prevent="showBookMenu(book.id)"
-                class="absolute top-2 right-2 w-8 h-8 rounded-full bg-black/20 backdrop-blur-md flex items-center justify-center text-white active:bg-black/40"
+              <!-- Delete Button -->
+              <button
+                @click.prevent="handleDeleteClick(book.id)"
+                class="absolute top-2 right-2 w-8 h-8 rounded-full bg-black/20 backdrop-blur-md flex items-center justify-center text-white active:bg-black/40 hover:bg-error/60 transition-colors"
               >
-                <span class="material-symbols-outlined text-lg">more_vert</span>
+                <span class="material-symbols-outlined text-lg">delete</span>
               </button>
               
               <!-- Status Tag -->
@@ -199,11 +210,16 @@ import WebHeader from '@/components/WebHeader.vue'
 import WebFooter from '@/components/WebFooter.vue'
 import MobileHeader from '@/components/MobileHeader.vue'
 import MobileBottomNav from '@/components/MobileBottomNav.vue'
-import { getStoryList } from '@/api/story'
+import ConfirmDialog from '@/components/ConfirmDialog.vue'
+import { getStoryList, deleteStory } from '@/api/story'
+import { useToastStore } from '@/stores/toast'
 
 const isMobile = ref(false)
 const searchKeyword = ref('')
 const activeFilter = ref('all')
+const showDeleteDialog = ref(false)
+const deleteTargetId = ref(null)
+const toastStore = useToastStore()
 
 const filters = [
   { label: '全部故事', value: 'all' },
@@ -211,38 +227,7 @@ const filters = [
   { label: '已发布', value: 'published' }
 ]
 
-const books = ref([
-  {
-    id: 1,
-    title: '小猫的城市冒险',
-    coverImage: 'https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=400&h=533&fit=crop',
-    status: 'draft'
-  },
-  {
-    id: 2,
-    title: '星际小航海家',
-    coverImage: 'https://images.unsplash.com/photo-1534796636912-3b95b3ab5986?w=400&h=533&fit=crop',
-    status: 'published'
-  },
-  {
-    id: 3,
-    title: '森林里的秘密',
-    coverImage: 'https://images.unsplash.com/photo-1448375240586-882707db888b?w=400&h=533&fit=crop',
-    status: 'draft'
-  },
-  {
-    id: 4,
-    title: '神奇画笔',
-    coverImage: 'https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=400&h=533&fit=crop',
-    status: 'published'
-  },
-  {
-    id: 5,
-    title: '极地滑雪赛',
-    coverImage: 'https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=400&h=533&fit=crop',
-    status: 'published'
-  }
-])
+const books = ref([])
 
 const filteredBooks = computed(() => {
   let result = books.value
@@ -263,8 +248,24 @@ const checkScreenSize = () => {
   isMobile.value = window.innerWidth < 768
 }
 
-const showBookMenu = (bookId) => {
-  console.log('显示菜单', bookId)
+const handleDeleteClick = (bookId) => {
+  deleteTargetId.value = bookId
+  showDeleteDialog.value = true
+}
+
+const confirmDelete = async () => {
+  if (!deleteTargetId.value) return
+
+  try {
+    await deleteStory(deleteTargetId.value)
+    books.value = books.value.filter(book => book.id !== deleteTargetId.value)
+    toastStore.success('故事已删除')
+  } catch (error) {
+    console.error('删除失败:', error)
+    toastStore.error('删除失败，请重试')
+  } finally {
+    deleteTargetId.value = null
+  }
 }
 
 const loadBooks = async () => {

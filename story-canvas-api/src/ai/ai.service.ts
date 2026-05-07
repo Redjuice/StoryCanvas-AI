@@ -181,10 +181,50 @@ export class AIService {
     return results
   }
 
-  getCurrentProviders(): { text: string; image: string } {
+  getCurrentProviders(): { text: string; textModel: string; image: string; imageModel: string } {
+    const textModel = this.configService.get<string>(
+      this.getProviderModelKey(this.textProvider.providerType),
+    ) || this.getDefaultModel(this.textProvider.providerType)
+
+    const imageModel = this.configService.get<string>(
+      this.getProviderModelKey(this.imageProvider.providerType),
+    ) || this.getDefaultModel(this.imageProvider.providerType)
+
     return {
       text: this.textProvider.name,
+      textModel,
       image: this.imageProvider.name,
+      imageModel,
+    }
+  }
+
+  private getProviderModelKey(type: ProviderType): string {
+    switch (type) {
+      case 'minimax':
+        return 'MINIMAX_MODEL'
+      case 'kimi':
+        return 'KIMI_MODEL'
+      case 'qwen':
+        return 'QWEN_MODEL'
+      case 'grsai':
+        return 'GRSAI_MODEL'
+      default:
+        return ''
+    }
+  }
+
+  private getDefaultModel(type: ProviderType): string {
+    switch (type) {
+      case 'minimax':
+        return 'abab6.5s-chat'
+      case 'kimi':
+        return 'moonshot-v1-8k'
+      case 'qwen':
+        return 'qwen-turbo'
+      case 'grsai':
+        return 'nano-banana-fast'
+      default:
+        return 'unknown'
     }
   }
 

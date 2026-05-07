@@ -29,17 +29,41 @@ export class StoriesService {
     })
 
     try {
+      const providers = this.aiService.getCurrentProviders()
       this.logger.log(`开始生成故事: ${theme}`)
+      this.logger.log(`文本生成: ${providers.text} (${providers.textModel})`)
+      this.logger.log(`图像生成: ${providers.image} (${providers.imageModel})`)
 
       const storyResult = await this.aiService.generateStory(theme, ageGroup, pageCount)
       
       let parsedContent: { title: string; pages: string[] }
       try {
-        parsedContent = JSON.parse(storyResult.text)
+        // 清理 AI 返回的文本，移除 markdown 代码块标记
+        let cleanedText = storyResult.text.trim()
+        
+        // 移除开头的 ```json 或 ```
+        if (cleanedText.startsWith('```json')) {
+          cleanedText = cleanedText.substring(7)
+        } else if (cleanedText.startsWith('```')) {
+          cleanedText = cleanedText.substring(3)
+        }
+        
+        // 移除结尾的 ```
+        if (cleanedText.endsWith('```')) {
+          cleanedText = cleanedText.substring(0, cleanedText.length - 3)
+        }
+        
+        // 再次 trim
+        cleanedText = cleanedText.trim()
+        
+        this.logger.debug(`清理后的AI响应: ${cleanedText.substring(0, 200)}...`)
+        
+        parsedContent = JSON.parse(cleanedText)
         if (!parsedContent.title || !Array.isArray(parsedContent.pages)) {
           throw new Error('AI返回的JSON格式不正确，缺少title或pages字段')
         }
       } catch (error) {
+        this.logger.error(`AI返回的原始文本: ${storyResult.text}`)
         throw new Error(`AI返回的文本格式不正确: ${error.message}`)
       }
 
@@ -57,8 +81,11 @@ export class StoriesService {
         let imageUrl = ''
 
         try {
+          const providers = this.aiService.getCurrentProviders()
+          this.logger.log(`正在为第${i + 1}页生成图片，使用: ${providers.image} (${providers.imageModel})`)
           const imageResult = await this.aiService.generateImage(pageText, style)
           imageUrl = imageResult.url
+          this.logger.log(`第${i + 1}页图片生成成功`)
         } catch (error) {
           this.logger.error(`生成第${i + 1}页图片失败: ${error.message}`)
         }
