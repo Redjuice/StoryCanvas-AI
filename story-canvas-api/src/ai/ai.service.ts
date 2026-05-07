@@ -131,9 +131,9 @@ export class AIService {
     return this.textProvider.generateText(prompt)
   }
 
-  async generateImage(prompt: string, style?: string): Promise<ImageGenerationResult> {
+  async generateImage(prompt: string, style?: string, options?: ImageGenerateOptions): Promise<ImageGenerationResult> {
     const fullPrompt = this.buildImagePrompt(prompt, style)
-    return this.imageProvider.generateImage(fullPrompt)
+    return this.imageProvider.generateImage(fullPrompt, options)
   }
 
   async generateText(prompt: string, options?: GenerateOptions): Promise<GenerationResult> {
@@ -245,9 +245,10 @@ export class AIService {
 
   private buildImagePrompt(text: string, style?: string): string {
     const styles: Record<string, string> = {
-      cartoon: '卡通风格，可爱活泼',
-      watercolor: '水彩画风格，梦幻柔和',
-      illustration: '插画风格，精美细致',
+      cartoon: '漫画风格',
+      vitality: '元气风格',
+      medieval: '中世纪风格',
+      watercolor: '水彩风格',
     }
 
     return `${text}, ${styles[style || 'cartoon']}, 儿童绘本插图，高质量，色彩鲜艳`

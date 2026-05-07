@@ -16,4 +16,9 @@ export class CreateStoryDto {
   @Min(3)
   @Max(10)
   pageCount: number
+
+  @IsNumber()
+  @Min(1)
+  @Max(4)
+  imagesPerPage: number
 }

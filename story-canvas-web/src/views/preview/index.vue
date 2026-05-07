@@ -62,12 +62,16 @@
                 :key="index"
                 class="group bg-surface-container-lowest p-6 rounded-lg transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_32px_64px_-12px_rgba(88,71,210,0.06)]"
               >
-                <div class="relative mb-6 rounded-lg overflow-hidden aspect-[4/3]">
-                  <img 
-                    :alt="page.text" 
-                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" 
-                    :src="page.image || 'https://images.unsplash.com/photo-1512820790803-83ca734da794?w=600&h=450&fit=crop'"
-                  />
+                <div class="relative mb-6 rounded-lg overflow-hidden">
+                  <div :class="getImageGridClass(page.image)">
+                    <img 
+                      v-for="(img, imgIndex) in getPageImages(page.image)"
+                      :key="imgIndex"
+                      :alt="page.text" 
+                      class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" 
+                      :src="img || 'https://images.unsplash.com/photo-1512820790803-83ca734da794?w=600&h=450&fit=crop'"
+                    />
+                  </div>
                   <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4">
                     <button 
                       @click="regenerateImage(index)"
@@ -158,12 +162,16 @@
             class="relative group"
           >
             <div class="bg-surface-container-lowest rounded-xl overflow-hidden shadow-[0_32px_64px_-12px_rgba(88,71,210,0.06)] transform transition-transform hover:scale-[1.01] duration-300">
-              <div class="relative aspect-square overflow-hidden">
-                <img 
-                  class="w-full h-full object-cover" 
-                  :src="page.image || 'https://images.unsplash.com/photo-1512820790803-83ca734da794?w=600&h=600&fit=crop'"
-                  :alt="page.text"
-                />
+              <div class="relative overflow-hidden" :class="getMobileImageContainerClass(page.image)">
+                <div :class="getImageGridClass(page.image)">
+                  <img 
+                    v-for="(img, imgIndex) in getPageImages(page.image)"
+                    :key="imgIndex"
+                    class="w-full h-full object-cover" 
+                    :src="img || 'https://images.unsplash.com/photo-1512820790803-83ca734da794?w=600&h=600&fit=crop'"
+                    :alt="page.text"
+                  />
+                </div>
                 <button 
                   @click="regenerateImage(index)"
                   :disabled="regeneratingIndex === index"
@@ -257,6 +265,25 @@ const styleLabels = {
 
 const currentStyleLabel = computed(() => styleLabels[storyStyle.value] || '童趣动漫')
 
+const getPageImages = (imageStr) => {
+  if (!imageStr) return ['']
+  return imageStr.split(',').filter(img => img.trim())
+}
+
+const getImageGridClass = (imageStr) => {
+  const count = getPageImages(imageStr).length
+  if (count === 1) return 'aspect-[4/3]'
+  if (count === 2) return 'grid grid-cols-2 gap-1 aspect-[4/3]'
+  if (count >= 3) return 'grid grid-cols-2 gap-1 aspect-square'
+  return 'aspect-[4/3]'
+}
+
+const getMobileImageContainerClass = (imageStr) => {
+  const count = getPageImages(imageStr).length
+  if (count <= 2) return 'aspect-square'
+  return 'aspect-[3/4]'
+}
+
 const checkScreenSize = () => {
   isMobile.value = window.innerWidth < 768
 }
@@ -267,9 +294,14 @@ const regenerateImage = async (index) => {
   regeneratingIndex.value = index
   try {
     const res = await regeneratePage(storyId.value, index + 1)
-    if (res.data && res.data.imageUrl) {
-      pages.value[index].image = res.data.imageUrl
-      toastStore.success('图片重新生成成功')
+    // 后端返回完整的故事对象，包含 pages 数组
+    const storyData = res.data
+    if (storyData && storyData.pages) {
+      const updatedPage = storyData.pages.find(p => p.pageNum === index + 1)
+      if (updatedPage && updatedPage.image) {
+        pages.value[index].image = updatedPage.image
+        toastStore.success('图片重新生成成功')
+      }
     }
   } catch (error) {
     console.error('重新生成图片失败:', error)

@@ -30,7 +30,8 @@ model Story {
   style       String
   status      StoryStatus @default(DRAFT)
   cover       String?
-  pageCount   Int         @default(5)
+  pageCount     Int         @default(5)
+  imagesPerPage Int         @default(1)
   createdAt   DateTime    @default(now())
   updatedAt   DateTime    @updatedAt
   userId      String

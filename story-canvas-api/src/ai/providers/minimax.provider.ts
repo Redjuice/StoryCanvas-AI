@@ -36,13 +36,12 @@ export class MiniMaxProvider implements AIProvider {
     try {
       const response = await firstValueFrom(
         this.httpService.post(
-          `${this.baseUrl}/text/chatcompletion_v2`,
+          'https://api.minimaxi.com/anthropic/v1/messages',
           {
-            model,
+            model: 'MiniMax-M2.5',
             messages: [{ role: 'user', content: prompt }],
-            temperature: options?.temperature ?? 0.7,
-            max_tokens: options?.maxTokens ?? 2048,
-            top_p: options?.topP ?? 0.95,
+            system: '你是一位世界级的儿童绘本设计师和故事讲述者。你制作的绘本能根据源素材和目标受众进行调整。凡事皆有故事，而你要找到最佳的讲述方式。每一页必须包含以下4个部分：// NARRATIVE GOAL (叙事目标) // KEY CONTENT (关键内容) // VISUAL (视觉画面) // LAYOUT (布局结构) **至关重要 (CRITICAL):** - 避免"标题：副标题"格式，这很AI感 - 禁止"不仅仅是[X]，而是[Y]"这种废话 - 封底不要用"谢谢观看"，要有设计感的结束语',
+            stream: false,
           },
           {
             headers: {
@@ -54,15 +53,16 @@ export class MiniMaxProvider implements AIProvider {
         ),
       )
 
-      const choice = response.data.choices?.[0]
+      const content = response.data.content || []
+      const textContent = content.find((c: any) => c.type === 'text')
       return {
-        text: choice?.message?.content || choice?.text || '',
+        text: textContent?.text || '',
         usage: {
-          promptTokens: response.data.usage?.prompt_tokens || 0,
-          completionTokens: response.data.usage?.completion_tokens || 0,
-          totalTokens: response.data.usage?.total_tokens || 0,
+          promptTokens: response.data.usage?.input_tokens || 0,
+          completionTokens: response.data.usage?.output_tokens || 0,
+          totalTokens: (response.data.usage?.input_tokens || 0) + (response.data.usage?.output_tokens || 0),
         },
-        finishReason: choice?.finish_reason,
+        finishReason: response.data.stop_reason,
       }
     } catch (error) {
       this.logger.error(`MiniMax 文本生成失败: ${error.message}`, error.stack)
@@ -88,15 +88,27 @@ export class MiniMaxProvider implements AIProvider {
   ): Promise<ImageGenerationResult> {
     this.logger.log(`MiniMax 生成图像, 提示词: ${prompt.substring(0, 50)}...`)
 
+    const styleMap: Record<string, string> = {
+      cartoon: '漫画',
+      watercolor: '水彩',
+      medieval: '中世纪',
+      vitality: '元气',
+    }
+
     try {
       const response = await firstValueFrom(
         this.httpService.post(
-          `${this.baseUrl}/image/generation`,
+          'https://api.minimaxi.com/v1/image_generation',
           {
-            model: 'image-01',
+            model: 'image-01-live',
             prompt,
-            aspect_ratio: '1:1',
+            aspect_ratio: '16:9',
             response_format: 'url',
+            n: 1,
+            prompt_optimizer: true,
+            style: {
+              style_type: styleMap[options?.style || 'cartoon'] || '漫画',
+            },
           },
           {
             headers: {
@@ -108,8 +120,13 @@ export class MiniMaxProvider implements AIProvider {
         ),
       )
 
-      const imageUrl = response.data.data?.image_url || response.data.image_url
+      this.logger.debug(`MiniMax 图像生成响应: ${JSON.stringify(response.data)}`)
+
+      const imageUrls = response.data.data?.image_urls || []
+      const imageUrl = imageUrls[0]
+
       if (!imageUrl) {
+        this.logger.error(`MiniMax 响应格式异常: ${JSON.stringify(response.data)}`)
         throw new Error('MiniMax 未返回图像 URL')
       }
 
@@ -119,7 +136,10 @@ export class MiniMaxProvider implements AIProvider {
         usage: { n: 1 },
       }
     } catch (error) {
-      this.logger.error(`MiniMax 图像生成失败: ${error.message}`, error.stack)
+      this.logger.error(`MiniMax 图像生成失败: ${error.message}`)
+      if (error.response) {
+        this.logger.error(`MiniMax 错误响应: ${JSON.stringify(error.response.data)}`)
+      }
       this.logger.warn('返回模拟图像结果')
       return {
         url: `https://picsum.photos/seed/${encodeURIComponent(prompt)}/1024/1024`,

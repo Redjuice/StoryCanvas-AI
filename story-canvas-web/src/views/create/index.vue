@@ -82,10 +82,33 @@
               </div>
             </section>
 
+            <!-- 每页图片张数 -->
+            <section class="bg-surface-container rounded-xl p-8 space-y-6">
+              <div class="flex items-center gap-3">
+                <span class="w-8 h-8 rounded-full bg-primary text-on-primary flex items-center justify-center font-bold">3</span>
+                <h2 class="text-xl font-bold text-on-surface">每页图片张数</h2>
+              </div>
+              <div class="flex flex-wrap gap-4">
+                <button
+                  v-for="n in imageCountOptions"
+                  :key="n.value"
+                  @click="formData.imagesPerPage = n.value"
+                  :class="[
+                    'px-6 py-3 rounded-xl font-medium transition-all',
+                    formData.imagesPerPage === n.value
+                      ? 'bg-primary text-white shadow-lg shadow-primary/30'
+                      : 'bg-surface-container-lowest text-on-surface border border-outline-variant/10 hover:border-primary/40'
+                  ]"
+                >
+                  {{ n.label }}
+                </button>
+              </div>
+            </section>
+
             <!-- 视觉风格选择 -->
             <section class="space-y-6">
               <div class="flex items-center gap-3">
-                <span class="w-8 h-8 rounded-full bg-primary text-on-primary flex items-center justify-center font-bold">3</span>
+                <span class="w-8 h-8 rounded-full bg-primary text-on-primary flex items-center justify-center font-bold">4</span>
                 <h2 class="text-xl font-bold text-on-surface">视觉风格</h2>
               </div>
               <div class="grid grid-cols-2 sm:grid-cols-4 gap-6">
@@ -260,7 +283,32 @@
           </div>
         </section>
 
-        <!-- Section 2: 视觉风格 -->
+        <!-- Section 2: 每页图片张数 -->
+        <section class="mb-6">
+          <div class="flex items-center gap-2 mb-4">
+            <div class="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">
+              <span class="text-primary material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">photo_library</span>
+            </div>
+            <label class="text-sm font-bold tracking-wide text-on-surface">每页图片张数</label>
+          </div>
+          <div class="grid grid-cols-3 gap-3">
+            <button
+              v-for="n in imageCountOptions"
+              :key="n.value"
+              @click="formData.imagesPerPage = n.value"
+              :class="[
+                'py-3 rounded-xl font-medium text-sm transition-all active:scale-95',
+                formData.imagesPerPage === n.value
+                  ? 'bg-primary text-white shadow-lg shadow-primary/30'
+                  : 'bg-white text-on-surface border border-outline-variant/30'
+              ]"
+            >
+              {{ n.label }}
+            </button>
+          </div>
+        </section>
+
+        <!-- Section 3: 视觉风格 -->
         <section class="mb-6">
           <div class="flex items-center gap-2 mb-4">
             <div class="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">
@@ -387,8 +435,15 @@ const formData = ref({
   theme: '',
   ageGroup: '3-6',
   style: 'cartoon',
-  pageCount: 5
+  pageCount: 5,
+  imagesPerPage: 1
 })
+
+const imageCountOptions = [
+  { value: 1, label: '1张' },
+  { value: 2, label: '2张' },
+  { value: 4, label: '4张' }
+]
 
 const examples = [
   '一只小猫的冒险故事',
@@ -404,9 +459,10 @@ const ageGroups = [
 ]
 
 const styles = [
-  { value: 'cartoon', label: '童趣动漫', image: 'https://images.unsplash.com/photo-1612036782180-6f0b6cd846fe?w=400&h=533&fit=crop' },
-  { value: 'watercolor', label: '温润水彩', image: 'https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?w=400&h=533&fit=crop' },
-  { value: 'illustration', label: '复古素描', image: 'https://images.unsplash.com/photo-1578301978693-85fa9c0320b9?w=400&h=533&fit=crop' }
+  { value: 'cartoon', label: '漫画', image: 'https://images.unsplash.com/photo-1612036782180-6f0b6cd846fe?w=400&h=533&fit=crop' },
+  { value: 'vitality', label: '元气', image: 'https://images.unsplash.com/photo-1515041219749-b934d9d877ca?w=400&h=533&fit=crop' },
+  { value: 'medieval', label: '中世纪', image: 'https://images.unsplash.com/photo-1535581652167-3d6b98c36cd0?w=400&h=533&fit=crop' },
+  { value: 'watercolor', label: '水彩', image: 'https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?w=400&h=533&fit=crop' }
 ]
 
 const canGenerate = computed(() => {
@@ -454,7 +510,8 @@ const handleGenerate = async () => {
       theme: formData.value.theme,
       ageGroup: formData.value.ageGroup,
       style: formData.value.style,
-      pageCount: formData.value.pageCount
+      pageCount: formData.value.pageCount,
+      imagesPerPage: formData.value.imagesPerPage
     })
 
     clearInterval(progressInterval)

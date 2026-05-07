@@ -14,7 +14,7 @@ export class StoriesService {
   ) {}
 
   async create(userId: string, createStoryDto: CreateStoryDto) {
-    const { theme, ageGroup, style, pageCount } = createStoryDto
+    const { theme, ageGroup, style, pageCount, imagesPerPage } = createStoryDto
 
     const story = await this.prisma.story.create({
       data: {
@@ -23,6 +23,7 @@ export class StoriesService {
         ageGroup,
         style,
         pageCount,
+        imagesPerPage: imagesPerPage || 1,
         status: 'GENERATING',
         userId,
       },
@@ -78,14 +79,25 @@ export class StoriesService {
 
       for (let i = 0; i < pages.length; i++) {
         const pageText = pages[i]
-        let imageUrl = ''
+        const imagesPerPage = story.imagesPerPage || 1
+        const imageUrls: string[] = []
 
         try {
           const providers = this.aiService.getCurrentProviders()
-          this.logger.log(`正在为第${i + 1}页生成图片，使用: ${providers.image} (${providers.imageModel})`)
-          const imageResult = await this.aiService.generateImage(pageText, style)
-          imageUrl = imageResult.url
-          this.logger.log(`第${i + 1}页图片生成成功`)
+          this.logger.log(`正在为第${i + 1}页生成${imagesPerPage}张图片，使用: ${providers.image} (${providers.imageModel})`)
+          
+          for (let j = 0; j < imagesPerPage; j++) {
+            try {
+              const imageResult = await this.aiService.generateImage(pageText, style, { n: 1 })
+              if (imageResult.url) {
+                imageUrls.push(imageResult.url)
+              }
+            } catch (error) {
+              this.logger.error(`生成第${i + 1}页第${j + 1}张图片失败: ${error.message}`)
+            }
+          }
+          
+          this.logger.log(`第${i + 1}页成功生成${imageUrls.length}张图片`)
         } catch (error) {
           this.logger.error(`生成第${i + 1}页图片失败: ${error.message}`)
         }
@@ -93,7 +105,7 @@ export class StoriesService {
         pageData.push({
           pageNum: i + 1,
           text: pageText,
-          image: imageUrl,
+          image: imageUrls.join(','),
           imagePrompt: pageText,
           storyId: story.id,
         })
@@ -108,7 +120,7 @@ export class StoriesService {
         data: {
           status: 'COMPLETED',
           title: parsedContent.title || `${theme} - 绘本`,
-          cover: pageData[0]?.image || null,
+          cover: pageData[0]?.image?.split(',')[0] || null,
         },
         include: {
           pages: {
@@ -172,9 +184,33 @@ export class StoriesService {
       throw new BadRequestException('无权操作此故事')
     }
 
+    const { pages, ...storyData } = updateStoryDto
+
+    // 如果提供了页面数据，先更新页面
+    if (pages && pages.length > 0) {
+      for (const page of pages) {
+        await this.prisma.page.updateMany({
+          where: {
+            storyId: id,
+            pageNum: page.pageNumber,
+          },
+          data: {
+            text: page.content,
+            image: page.imageUrl,
+          },
+        })
+      }
+    }
+
+    // 更新故事基本信息
     return this.prisma.story.update({
       where: { id },
-      data: updateStoryDto,
+      data: storyData,
+      include: {
+        pages: {
+          orderBy: { pageNum: 'asc' },
+        },
+      },
     })
   }
 
@@ -208,7 +244,10 @@ export class StoriesService {
     }
 
     try {
+      this.logger.log(`开始重新生成第${pageNum}页图片，文本: ${page.text.substring(0, 50)}...`)
+      
       const imageResult = await this.aiService.generateImage(page.text, story.style)
+      this.logger.log(`AI生成图片结果: ${imageResult.url.substring(0, 100)}...`)
 
       await this.prisma.page.update({
         where: { id: page.id },
@@ -216,8 +255,13 @@ export class StoriesService {
           image: imageResult.url,
         },
       })
+      this.logger.log(`数据库已更新第${pageNum}页图片`)
 
-      return this.findById(id)
+      const updatedStory = await this.findById(id)
+      const updatedPage = updatedStory.pages.find(p => p.pageNum === pageNum)
+      this.logger.log(`返回更新后的第${pageNum}页图片: ${updatedPage?.image?.substring(0, 100)}...`)
+
+      return updatedStory
     } catch (error) {
       this.logger.error(`重新生成第${pageNum}页图片失败: ${error.message}`)
       throw new Error(`重新生成图片失败: ${error.message}`)
